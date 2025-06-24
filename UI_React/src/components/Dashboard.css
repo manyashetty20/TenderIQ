@@ -1,0 +1,33 @@
+.dash__wrapper {
+    height: 100%;
+    background: var(--accent-1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .dash__buttons {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .dash-btn {
+    background: #fff;
+    color: var(--text-dark);
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s;
+  }
+  
+  .dash-btn:hover {
+    transform: translateY(-4px);
+  }
+  

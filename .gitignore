@@ -1,0 +1,2 @@
+# Ignore LLaMA model file
+models/*.gguf

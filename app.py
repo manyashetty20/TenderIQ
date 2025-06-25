@@ -114,13 +114,22 @@ with tab2:
 
             st.session_state.chat_history.append((user_input, answer, sources))
 
+    
     for q, a, s in reversed(st.session_state.chat_history):
-        st.markdown(f"**\U0001F9D1 You:** {q}")
-        st.markdown(f"**\U0001F916 TenderIQ:** {a}")
-        st.markdown("**\U0001F4C4 Sources:**")
-        for src in s:
-            st.markdown(f"- {src}")
+        st.markdown(f"**🧑 You:** {q}")
+        st.markdown(f"**🤖 TenderIQ:** {a}")
+
+        if s:
+            # one expander per chunk
+            for i, chunk in enumerate(s, 1):
+                preview = chunk[:120].replace("\n", " ") + ("…" if len(chunk) > 120 else "")
+                with st.expander(f"📄 Source {i}: {preview}"):
+                    st.markdown(chunk)
+        else:
+            st.markdown("_No relevant sources found._")
+
         st.markdown("---")
+
 
 # ---------------------- Tab 3: Task Extraction -------------------------
 with tab3:

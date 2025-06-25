@@ -31,7 +31,6 @@ def add_project(name):
 st.sidebar.title("TenderIQ")
 st.sidebar.subheader("Project Management")
 
-# Handle project input toggle
 if "show_input" not in st.session_state:
     st.session_state.show_input = False
 
@@ -51,11 +50,11 @@ selected_project = st.sidebar.selectbox("Select Tender Project", project_names)
 st.sidebar.markdown(f"**Selected:** `{selected_project}`")
 
 # ---------------------- Main Tabs -------------------------
-tab1, tab2, tab3 = st.tabs(["\U0001F4C1 Upload", "\U0001F4AC Chat", "\U0001F4CB Tasks"])
+tab1, tab2, tab3 = st.tabs(["📁 Upload", "💬 Chat", "📋 Tasks"])
 
 # ---------------------- Tab 1: Upload -------------------------
 with tab1:
-    st.header("\U0001F4C1 Upload Tender Document")
+    st.header("📁 Upload Tender Document")
     uploaded_file = st.file_uploader("Upload a PDF or DOCX file", type=["pdf", "docx"])
 
     doc_type = st.selectbox("Document Type", ["Main", "Amendment", "Clarification", "Q&A"])
@@ -75,17 +74,17 @@ with tab1:
                 response = requests.post(f"{API_BASE}/upload/", files=files, data=data)
 
                 if response.status_code == 200:
-                    st.success("\u2705 Document uploaded and processed successfully.")
+                    st.success("✅ Document uploaded and processed successfully.")
                     st.json(response.json())
                 else:
-                    st.error(f"\u274C Upload failed with status code {response.status_code}")
+                    st.error(f"❌ Upload failed with status code {response.status_code}")
                     st.text(response.text)
             except Exception as e:
-                st.error(f"\u274C Upload failed: {e}")
+                st.error(f"❌ Upload failed: {e}")
 
 # ---------------------- Tab 2: Chat Interface -------------------------
 with tab2:
-    st.header("\U0001F4AC Ask Questions")
+    st.header("💬 Ask Questions")
     st.markdown("Ask anything about the selected tender document.")
 
     if "chat_history" not in st.session_state:
@@ -95,32 +94,42 @@ with tab2:
 
     if st.button("Ask"):
         if user_input:
-            try:
-                data = {
-                    "project": selected_project,
-                    "question": user_input
-                }
-                res = requests.post(f"{API_BASE}/ask/", json=data)
-                if res.status_code == 200:
-                    response = res.json()
-                    answer = response.get("answer", "No answer returned.")
-                    sources = response.get("chunks", [])
-                else:
-                    answer = f"\u274C Error from backend: {res.status_code}"
-                    sources = []
-            except Exception as e:
-                answer = f"\u274C Request failed: {e}"
-                sources = []
+            with st.spinner("🧠 Processing your query..."):
+                try:
+                    data = {
+                        "project": selected_project,
+                        "question": user_input
+                    }
+                    res = requests.post(f"{API_BASE}/ask/", json=data)
+                except Exception as e:
+                    res = None
+                    st.session_state.chat_history.append(
+                        (user_input, f"❌ Request failed: {e}", [], {})
+                    )
 
-            st.session_state.chat_history.append((user_input, answer, sources))
+            if res and res.status_code == 200:
+                response = res.json()
+                answer = response.get("answer", "No answer returned.")
+                sources = response.get("chunks", [])
+                timings = response.get("timings", {})
 
-    
-    for q, a, s in reversed(st.session_state.chat_history):
+                st.session_state.chat_history.append((user_input, answer, sources, timings))
+            elif res:
+                error_msg = f"❌ Error from backend: {res.status_code}"
+                st.session_state.chat_history.append((user_input, error_msg, [], {}))
+
+    for q, a, s, t in reversed(st.session_state.chat_history):
         st.markdown(f"**🧑 You:** {q}")
         st.markdown(f"**🤖 TenderIQ:** {a}")
 
+        if t:
+            with st.expander("🕒 Processing Breakdown"):
+                st.markdown(f"- 🧠 **Embedding**: `{t.get('embedding', 'N/A')}s`")
+                st.markdown(f"- 🔍 **Retrieval**: `{t.get('retrieval', 'N/A')}s`")
+                st.markdown(f"- ✍️ **LLM Inference**: `{t.get('llm', 'N/A')}s`")
+                st.markdown(f"- ⏱️ **Total Time**: `{t.get('total', 'N/A')}s`")
+
         if s:
-            # one expander per chunk
             for i, chunk in enumerate(s, 1):
                 preview = chunk[:120].replace("\n", " ") + ("…" if len(chunk) > 120 else "")
                 with st.expander(f"📄 Source {i}: {preview}"):
@@ -130,12 +139,11 @@ with tab2:
 
         st.markdown("---")
 
-
 # ---------------------- Tab 3: Task Extraction -------------------------
 with tab3:
-    st.header("\U0001F4CB Extracted Tasks")
+    st.header("📋 Extracted Tasks")
 
-    if st.button("\U0001F50D Extract Tasks"):
+    if st.button("🔍 Extract Tasks"):
         tasks = [
             {"task": "Submit company profile", "deadline": "July 10", "status": "Pending"},
             {"task": "Attach ISO Certificate", "deadline": "July 12", "status": "Pending"},
@@ -145,9 +153,9 @@ with tab3:
     if "tasks" in st.session_state:
         for i, task in enumerate(st.session_state.tasks):
             st.markdown(f"**Task {i+1}**")
-            st.markdown(f"- \U0001F4C4 **Description**: {task['task']}")
-            st.markdown(f"- \U0001F4C5 **Deadline**: {task['deadline']}")
-            st.markdown(f"- \u2705 **Status**: {task['status']}")
+            st.markdown(f"- 📄 **Description**: {task['task']}")
+            st.markdown(f"- 📅 **Deadline**: {task['deadline']}")
+            st.markdown(f"- ✅ **Status**: {task['status']}")
             st.markdown("---")
 
 # ---------------------- FastAPI Backend (for uvicorn) -------------------------
@@ -157,8 +165,8 @@ try:
 
     app = FastAPI()
     app.include_router(api_router)
-    print("\u2705 FastAPI initialized successfully")
+    print("✅ FastAPI initialized successfully")
 
 except Exception as e:
-    print("\u274C FastAPI failed to load:", e)
+    print("❌ FastAPI failed to load:", e)
     app = None

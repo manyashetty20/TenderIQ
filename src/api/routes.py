@@ -21,6 +21,13 @@ try:
 except ImportError as e:
     print("⚠️ Could not import tasks.py:", e)
 
+# ✅ New: Project management routes
+try:
+    from .project import router as project_router
+    router.include_router(project_router, tags=["Projects"])
+except ImportError as e:
+    print("⚠️ Could not import project.py:", e)
+
 # Add a base route for testing
 @router.get("/")
 def root():

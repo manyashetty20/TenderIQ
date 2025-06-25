@@ -7,12 +7,46 @@ API_BASE = "http://localhost:8000"
 
 st.set_page_config(page_title="TenderIQ", layout="wide")
 
+# ---------------------- New: Dynamic Projects -------------------------
+def get_projects():
+    try:
+        res = requests.get(f"{API_BASE}/projects/")
+        return res.json().get("projects", [])
+    except Exception as e:
+        st.error(f"Failed to fetch projects: {e}")
+        return []
+
+def add_project(name):
+    try:
+        res = requests.post(f"{API_BASE}/projects/", json={"project": name})
+        if res.ok:
+            return True
+        st.sidebar.error(f"Error: {res.status_code} - {res.text}")
+        return False
+    except Exception as e:
+        st.sidebar.error(f"Request failed: {e}")
+        return False
+
 # ---------------------- Sidebar: Project Selection -------------------------
 st.sidebar.title("TenderIQ")
 st.sidebar.subheader("Project Management")
 
-# Dummy list of projects (replace with backend API call if needed)
-project_names = ["Metro Rail Expansion", "Hospital Equipment Supply"]
+# Handle project input toggle
+if "show_input" not in st.session_state:
+    st.session_state.show_input = False
+
+if st.sidebar.button("➕ Add New Project"):
+    st.session_state.show_input = True
+
+if st.session_state.show_input:
+    new_project = st.sidebar.text_input("Enter Project Name", key="new_project")
+    if new_project:
+        if add_project(new_project):
+            st.sidebar.success(f"Project '{new_project}' added!")
+            st.session_state.show_input = False
+            st.rerun()
+
+project_names = get_projects()
 selected_project = st.sidebar.selectbox("Select Tender Project", project_names)
 st.sidebar.markdown(f"**Selected:** `{selected_project}`")
 

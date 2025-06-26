@@ -7,7 +7,7 @@ API_BASE = "http://localhost:8000"
 
 st.set_page_config(page_title="TenderIQ", layout="wide")
 
-# ---------------------- New: Dynamic Projects -------------------------
+# ---------------------- Project Management -------------------------
 def get_projects():
     try:
         res = requests.get(f"{API_BASE}/projects/")
@@ -27,8 +27,15 @@ def add_project(name):
         st.sidebar.error(f"Request failed: {e}")
         return False
 
-# ---------------------- Sidebar: Project Selection -------------------------
+# ---------------------- Sidebar -------------------------
 st.sidebar.title("TenderIQ")
+
+# Model Selector
+st.sidebar.subheader("Model Selection")
+model_choice = st.sidebar.radio("Choose a model", ["LLaMA", "Groq"])
+selected_model = model_choice.lower()  # Ensure "llama"/"groq" lowercase for backend
+
+# Project Selector
 st.sidebar.subheader("Project Management")
 
 if "show_input" not in st.session_state:
@@ -98,7 +105,8 @@ with tab2:
                 try:
                     data = {
                         "project": selected_project,
-                        "question": user_input
+                        "question": user_input,
+                        "model": selected_model
                     }
                     res = requests.post(f"{API_BASE}/ask/", json=data)
                 except Exception as e:
@@ -144,29 +152,28 @@ with tab3:
     st.header("📋 Extracted Tasks")
 
     if st.button("🔍 Extract Tasks"):
-        tasks = [
-            {"task": "Submit company profile", "deadline": "July 10", "status": "Pending"},
-            {"task": "Attach ISO Certificate", "deadline": "July 12", "status": "Pending"},
-        ]
-        st.session_state.tasks = tasks
+        try:
+            with st.spinner("Extracting tasks from document..."):
+                headers = {"Content-Type": "application/json"}
+                payload = {
+                    "project": selected_project,
+                    "model": selected_model
+                }
+
+                response = requests.post(f"{API_BASE}/tasks/", json=payload, headers=headers)
+
+                if response.status_code == 200:
+                    tasks = response.json().get("tasks", [])
+                    st.session_state.tasks = tasks
+                else:
+                    st.error(f"❌ Task extraction failed: {response.status_code}")
+        except Exception as e:
+            st.error(f"❌ Error: {e}")
 
     if "tasks" in st.session_state:
         for i, task in enumerate(st.session_state.tasks):
-            st.markdown(f"**Task {i+1}**")
-            st.markdown(f"- 📄 **Description**: {task['task']}")
-            st.markdown(f"- 📅 **Deadline**: {task['deadline']}")
-            st.markdown(f"- ✅ **Status**: {task['status']}")
+            st.markdown(f"### 📝 Task {i+1}")
+            st.markdown(f"- 📄 **Description**: {task.get('task', 'N/A')}")
+            st.markdown(f"- 📅 **Deadline**: {task.get('deadline', 'TBD')}")
+            st.markdown(f"- ✅ **Status**: {task.get('status', 'Pending')}")
             st.markdown("---")
-
-# ---------------------- FastAPI Backend (for uvicorn) -------------------------
-try:
-    from fastapi import FastAPI
-    from src.api.routes import router as api_router
-
-    app = FastAPI()
-    app.include_router(api_router)
-    print("✅ FastAPI initialized successfully")
-
-except Exception as e:
-    print("❌ FastAPI failed to load:", e)
-    app = None

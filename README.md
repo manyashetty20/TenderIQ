@@ -30,3 +30,9 @@ streamlit run ui/app.py
 <br>
 uvicorn app:app --reload
 </br>
+<b>
+NEW COMMAND FOR FASTAPI
+</b>
+<br>
+uvicorn src.api.main:app --reload
+</br>

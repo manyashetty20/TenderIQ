@@ -1,7 +1,7 @@
-from llama_cpp import Llama
 import time
+from llama_cpp import Llama
 
-# Load LLaMA model globally (only once)
+# Load LLaMA model globally once
 llm = Llama(
     model_path="models/llama-2-7b-chat.Q4_K_M.gguf",
     n_ctx=2048,
@@ -14,32 +14,37 @@ def get_llm_response(prompt: str) -> tuple[str, float]:
         {
             "role": "system",
             "content": (
-                "You are a helpful assistant that answers questions strictly using "
-                "the given context. Keep responses accurate, clear, and under 3 sentences. "
-                "Do not add extra information."
+                "You are a helpful assistant that responds using ONLY the provided context.\n"
+                "Return your answers in correct format as requested by the prompt.\n"
+                "Avoid adding any extra information."
             )
         },
-        {"role": "user", "content": prompt}
+        {
+            "role": "user",
+            "content": prompt
+        }
     ]
 
     try:
-        start_time = time.time()
+        start = time.perf_counter()
         response_text = ""
 
-        # Stream output from llama-cpp for accurate timing
         for chunk in llm.create_chat_completion(
             messages=chat_format_prompt,
             max_tokens=512,
-            temperature=0.5,
-            top_p=0.9,
-            stop=["</s>"],
-            stream=True
+            temperature=0.3,
+            top_p=0.95,
+            stream=True,
+            stop=["</s>"]
         ):
-            if 'choices' in chunk and chunk['choices'][0]['delta'].get('content'):
-                response_text += chunk['choices'][0]['delta']['content']
+            if 'choices' in chunk:
+                delta = chunk['choices'][0].get('delta', {})
+                content = delta.get('content')
+                if content:
+                    response_text += content
 
-        generation_time = time.time() - start_time
-        return response_text.strip(), generation_time
+        duration = round(time.perf_counter() - start, 3)
+        return response_text.strip(), duration
 
     except Exception as e:
         return f"⚠️ LLaMA Error: {str(e)}", 0.0

@@ -17,6 +17,8 @@ faiss-cpu>=1.7.4
 
 # --- Local LLM runtime ---
 llama-cpp-python>=0.2.45
+groq>=0.5.0
+python-dotenv>=1.0.1
 # Optional alternative: uncomment if using GPT4All
 # gpt4all>=2.1.2
 

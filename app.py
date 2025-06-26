@@ -163,17 +163,34 @@ with tab3:
                 response = requests.post(f"{API_BASE}/tasks/", json=payload, headers=headers)
 
                 if response.status_code == 200:
-                    tasks = response.json().get("tasks", [])
-                    st.session_state.tasks = tasks
+                    data = response.json()
+                    st.session_state.tasks = data.get("tasks", [])
+                    st.session_state.task_timings = data.get("timings", {})
+                    
+                    if not st.session_state.tasks:
+                        st.warning("✅ Extraction completed but returned no tasks.")
                 else:
                     st.error(f"❌ Task extraction failed: {response.status_code}")
+                    st.text(response.text)
+
         except Exception as e:
             st.error(f"❌ Error: {e}")
 
-    if "tasks" in st.session_state:
+    # Display timing and tasks if available
+    if "tasks" in st.session_state and st.session_state.tasks:
+        timings = st.session_state.get("task_timings", {})
+
+        if timings:
+            with st.expander("🕒 Task Extraction Breakdown"):
+                st.markdown(f"- 🔍 **Retrieval**: `{timings.get('retrieval', 'N/A')}s`")
+                st.markdown(f"- ✍️ **LLM Inference**: `{timings.get('llm', 'N/A')}s`")
+                st.markdown(f"- ⏱️ **Total Time**: `{timings.get('total', 'N/A')}s`")
+
         for i, task in enumerate(st.session_state.tasks):
             st.markdown(f"### 📝 Task {i+1}")
             st.markdown(f"- 📄 **Description**: {task.get('task', 'N/A')}")
             st.markdown(f"- 📅 **Deadline**: {task.get('deadline', 'TBD')}")
             st.markdown(f"- ✅ **Status**: {task.get('status', 'Pending')}")
             st.markdown("---")
+    else:
+        st.info("No tasks extracted yet.")

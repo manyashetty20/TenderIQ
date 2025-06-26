@@ -1,4 +1,11 @@
 def get_model_response(prompt: str, model: str) -> tuple[str, float]:
+    """
+    Unified entrypoint for querying either Groq or LLaMA.
+
+    Returns:
+        - response_text (str)
+        - llm_time (float): seconds taken for inference
+    """
     model = model.lower()
 
     if model == "groq":

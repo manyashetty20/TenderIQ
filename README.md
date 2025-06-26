@@ -36,3 +36,12 @@ NEW COMMAND FOR FASTAPI
 <br>
 uvicorn src.api.main:app --reload
 </br>
+<b>
+Additonal installations for groq
+</b>
+<br>
+pip install python-dotenv
+</br>
+<br>
+pip install groq
+</br>

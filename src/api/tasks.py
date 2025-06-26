@@ -2,10 +2,13 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 import os
 import json
+import re
+import time
+import traceback
 
 from src.embedding.index import load_index_and_chunks
 from src.llm.inference import get_model_response
-from src.retrieval.extractor import build_task_prompt  # This should build the task-specific prompt
+from src.retrieval.extractor import build_task_prompt  # Builds prompt from chunks
 
 # ---------------------- Setup ----------------------
 TASK_DIR = "data/tasks"
@@ -16,54 +19,54 @@ router = APIRouter()
 # ---------------------- Request Schema ----------------------
 class TaskRequest(BaseModel):
     project: str
-    model: str = "llama"  # Optional field, defaults to llama if not specified
+    model: str = "llama"  # Default to LLaMA
 
 # ---------------------- POST /tasks/ ----------------------
 @router.post("/")
 async def generate_tasks(req: TaskRequest):
     try:
+        timings = {}
+        total_start = time.perf_counter()
+
+        # Format project name safely for file paths
         safe_project = req.project.replace(" ", "_").replace("/", "_")
         index_path = f"data/vector_stores/{safe_project}"
 
-        # Load FAISS index and chunks
+        # 🔍 Load index and build task prompt
+        retrieval_start = time.perf_counter()
         index, chunks = load_index_and_chunks(index_path)
-
-        # Build task-extraction prompt
         prompt = build_task_prompt(chunks)
+        timings["retrieval"] = round(time.perf_counter() - retrieval_start, 3)
 
-        # Get response from selected model
-        result, _ = get_model_response(prompt, model=req.model)
+        # ✍️ Run LLM
+        answer, llm_time = get_model_response(prompt, model=req.model)
+        timings["llm"] = round(llm_time, 3)
 
-        # Parse result as JSON (expecting list of tasks)
+        # 🧩 Parse tasks from LLM result
         try:
-            tasks = json.loads(result) if result.strip().startswith("[") else []
+            match = re.search(r"\[\s*{.*?}\s*\]", answer, re.DOTALL)
+            if match:
+                tasks = json.loads(match.group())
+            else:
+                tasks = [{"task": "⚠️ No valid JSON array found", "status": "Error"}]
         except json.JSONDecodeError:
             tasks = [{"task": "⚠️ Failed to parse tasks", "status": "Error"}]
 
-        # Save tasks to file
+        # 💾 Save tasks to file
         task_file = os.path.join(TASK_DIR, f"{safe_project}.json")
         with open(task_file, "w") as f:
             json.dump(tasks, f, indent=2)
 
+        timings["total"] = round(time.perf_counter() - total_start, 3)
+
         return {
             "project": req.project,
             "tasks": tasks,
-            "model_used": req.model
+            "model_used": req.model,
+            "timings": timings
         }
 
     except Exception as e:
+        print("❌ Task extraction error:")
+        traceback.print_exc()
         return {"error": str(e)}
-
-# ---------------------- GET /tasks/{project_name} ----------------------
-@router.get("/{project_name}")
-async def get_tasks(project_name: str):
-    safe_project = project_name.replace(" ", "_").replace("/", "_")
-    file_path = os.path.join(TASK_DIR, f"{safe_project}.json")
-
-    if not os.path.exists(file_path):
-        return {"project": project_name, "tasks": []}
-    
-    with open(file_path, "r") as f:
-        tasks = json.load(f)
-
-    return {"project": project_name, "tasks": tasks}

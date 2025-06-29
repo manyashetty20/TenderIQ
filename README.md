@@ -30,6 +30,7 @@ streamlit run ui/app.py
 <br>
 uvicorn app:app --reload
 </br>
+<<<<<<< HEAD
 <b>
 NEW COMMAND FOR FASTAPI
 </b>
@@ -44,4 +45,12 @@ pip install python-dotenv
 </br>
 <br>
 pip install groq
+=======
+<br>
+Run the UI as using 
+streamlit run app.py
+<br>
+coz the app.py in UI folder is the old code
+</br>
+>>>>>>> project-a-branch
 </br>

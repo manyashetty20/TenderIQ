@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+<<<<<<< HEAD
 from pydantic import BaseModel
 import os
 import json
@@ -70,3 +71,22 @@ async def generate_tasks(req: TaskRequest):
         print("❌ Task extraction error:")
         traceback.print_exc()
         return {"error": str(e)}
+=======
+import json
+import os
+
+TASK_DIR = "data/tasks"
+
+router = APIRouter()
+
+@router.get("/{project_name}")
+async def get_tasks(project_name: str):
+    file_path = os.path.join(TASK_DIR, f"{project_name}.json")
+    if not os.path.exists(file_path):
+        return {"tasks": []}
+    
+    with open(file_path, "r") as f:
+        tasks = json.load(f)
+    
+    return {"project": project_name, "tasks": tasks}
+>>>>>>> project-a-branch

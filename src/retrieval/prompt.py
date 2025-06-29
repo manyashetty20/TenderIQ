@@ -1,4 +1,5 @@
 def build_prompt(question: str, context_chunks: list[str]) -> str:
+<<<<<<< HEAD
     context = "\n\n".join(context_chunks).strip()
 
     # Detect if it's a task-related question
@@ -58,4 +59,13 @@ You are an AI assistant answering questions strictly using the provided CONTEXT.
 - If the answer isn't present, reply: "The information is not available in the document."
 """.strip()
 
+=======
+    context = "\n\n".join(context_chunks)
+    prompt = (
+        f"Answer the question based on the context below.\n\n"
+        f"Context:\n{context}\n\n"
+        f"Question: {question}\n"
+        f"Answer:"
+    )
+>>>>>>> project-a-branch
     return prompt

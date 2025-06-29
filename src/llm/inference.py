@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 def get_model_response(prompt: str, model: str) -> tuple[str, float]:
     """
     Unified entrypoint for querying either Groq or LLaMA.
@@ -18,3 +19,7 @@ def get_model_response(prompt: str, model: str) -> tuple[str, float]:
 
     else:
         raise ValueError(f"❌ Unsupported model: {model}")
+=======
+def get_llm_response(prompt: str) -> str:
+    return "This is a placeholder answer. The real LLM logic will be added later."
+>>>>>>> project-a-branch

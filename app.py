@@ -59,7 +59,7 @@ tab1, tab2, tab3 = st.tabs(["📁 Upload", "💬 Chat", "📋 Tasks"])
 with tab1:
     st.header("📁 Upload Tender Document")
     uploaded_file = st.file_uploader("Upload a PDF or DOCX file", type=["pdf", "docx"])
-    doc_type = st.selectbox("Document Type", ["Main", "Amendment", "Clarification", "Q&A"])
+    doc_type = st.selectbox("Document Type", ["Main", "Amendment"])
     version = st.text_input("Version (e.g., 1 or 2)", "1")
 
     if uploaded_file and st.button("Upload Document"):

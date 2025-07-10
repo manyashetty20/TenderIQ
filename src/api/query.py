@@ -107,9 +107,19 @@ def ask_question(req: QueryRequest):
 
         # -- 4. Search for relevant chunks -------------------------------------
         retr_start = time.perf_counter()
-        D, I = index.search(q_vector, k=5)
         retr_time = time.perf_counter() - retr_start
-        relevant = [chunks[i] for i in I[0] if i < len(chunks)]
+        D, I = index.search(q_vector, k=20)
+
+        # Flatten and deduplicate indices
+        seen_text = set()
+        relevant = []
+        for i in I[0]:
+            if i < len(chunks):
+                text = chunks[i].strip()
+                if text not in seen_text:
+                    seen_text.add(text)
+                    relevant.append(text)
+
 
         if not relevant:
             raise HTTPException(status_code=404, detail="No relevant chunks found.")

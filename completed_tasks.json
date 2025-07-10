@@ -1,0 +1,39 @@
+{
+  "Metro Rail Expansion_completed_tasks": [
+    {
+      "task": "Any changes to the scope must be approved in writing before execution.",
+      "deadline": "",
+      "priority": "normal",
+      "source": "regex",
+      "category": "requirement"
+    },
+    {
+      "task": "Preparing a detailed technical blueprint for approval by August 5, 2025.",
+      "deadline": "August 5",
+      "priority": "high",
+      "source": "regex",
+      "category": "deadline"
+    },
+    {
+      "task": "Submit application with required forms",
+      "deadline": "20th March, 2024",
+      "status": "Pending",
+      "priority": "normal"
+    },
+    {
+      "task": "Submit application with required forms",
+      "deadline": "March 20, 2024",
+      "status": "Pending",
+      "priority": "high"
+    }
+  ],
+  "Hospital Equipment Supply_completed_tasks": [
+    {
+      "task": "Section 5: General Conditions \n\u25cf\u200b All deliverables must be documented and signed off by the project supervisor.",
+      "deadline": "",
+      "priority": "normal",
+      "source": "regex",
+      "category": "requirement"
+    }
+  ]
+}

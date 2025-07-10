@@ -1,0 +1,196 @@
+[
+  {
+    "task": "Pre-bid meeting",
+    "deadline": "July 10, 2025, at 11:00 AM",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "Any clarifications or queries may be submitted via email to the Tender Officer by July 12, \n2025.",
+    "deadline": "July 12",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Submit clarifications or queries via email",
+    "deadline": "July 12, 2025",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "Submit final proposals",
+    "deadline": "July 20, 2025, no later than 5:00 PM IST",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "Evaluation of technical bids will begin from July 22, 2025, and shortlisted bidders will be \nnotified by email.",
+    "deadline": "July 22",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Final results and award notification will be published on the official tender portal by July \n28, 2025.",
+    "deadline": "July \n28",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Section 3: Scope of Work \nThe selected vendor will be responsible for the complete execution of the project, including but \nnot limited to: \n\u25cf\u200b Conducting site surveys and submitting the installation layout plan by August 2, 2025.",
+    "deadline": "August 2",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Conduct site surveys and submit installation layout plan",
+    "deadline": "August 2, 2025",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "Preparing a detailed technical blueprint for approval by August 5, 2025.",
+    "deadline": "August 5",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Prepare detailed technical blueprint for approval",
+    "deadline": "August 5, 2025",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "Procurement of all materials, components, and cabling to be completed by August 12, \n2025.",
+    "deadline": "August 12",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Procure materials, components, and cabling",
+    "deadline": "August 12, 2025",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "Installation, wiring, and testing of all solar panels across five locations must be finalized \nby August 25, 2025.",
+    "deadline": "August 25",
+    "priority": "high",
+    "source": "regex",
+    "category": "requirement"
+  },
+  {
+    "task": "Installation, wiring, and testing of all solar panels across five locations must be finalized \nby August 25, 2025.",
+    "deadline": "August 25",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Install, wire, and test solar panels",
+    "deadline": "August 25, 2025",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "The vendor shall prepare and submit a compliance and performance report by August \n28, 2025, including geo-tagged images of all completed sites.",
+    "deadline": "August \n28",
+    "priority": "high",
+    "source": "regex",
+    "category": "requirement"
+  },
+  {
+    "task": "The vendor shall prepare and submit a compliance and performance report by August \n28, 2025, including geo-tagged images of all completed sites.",
+    "deadline": "August \n28",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Prepare and submit compliance and performance report",
+    "deadline": "August 28, 2025",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "Attend joint inspection with state officials",
+    "deadline": "August 30, 2025",
+    "status": "Pending",
+    "priority": "high"
+  },
+  {
+    "task": "Section 5: General Conditions \n\u25cf\u200b All deliverables must be documented and signed off by the project supervisor.",
+    "deadline": "",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Any changes to the scope must be approved in writing before execution.",
+    "deadline": "",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "Any changes to the scope must be approved in writing before execution.",
+    "deadline": "",
+    "priority": "high",
+    "source": "regex",
+    "category": "deadline"
+  },
+  {
+    "task": "All tasks shall be executed in accordance with MNRE guidelines and specifications.",
+    "deadline": "",
+    "priority": "normal",
+    "source": "regex",
+    "category": "requirement"
+  },
+  {
+    "task": "Section 4: Technical Requirements \nThe PV modules used must meet BIS certification standards and offer at least 20% efficiency.",
+    "deadline": "",
+    "priority": "normal",
+    "source": "regex",
+    "category": "requirement"
+  },
+  {
+    "task": "All equipment shall carry a minimum warranty of five years from the date of commissioning.",
+    "deadline": "",
+    "priority": "normal",
+    "source": "regex",
+    "category": "requirement"
+  },
+  {
+    "task": "Preventive maintenance shall be provided quarterly during the first year.",
+    "deadline": "",
+    "priority": "normal",
+    "source": "regex",
+    "category": "requirement"
+  },
+  {
+    "task": "Section 5: General Conditions \n\u25cf\u200b All deliverables must be documented and signed off by the project supervisor.",
+    "deadline": "",
+    "priority": "normal",
+    "source": "regex",
+    "category": "requirement"
+  },
+  {
+    "task": "Any changes to the scope must be approved in writing before execution.",
+    "deadline": "",
+    "priority": "normal",
+    "source": "regex",
+    "category": "requirement"
+  },
+  {
+    "task": "Any changes to the scope must be approved in writing before execution.",
+    "deadline": "",
+    "priority": "normal",
+    "source": "regex",
+    "category": "requirement"
+  }
+]

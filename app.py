@@ -6,6 +6,20 @@ import json
 API_BASE = "http://localhost:8000"
 st.set_page_config(page_title="TenderIQ", layout="wide")
 
+# ---------------------- Task State Persistence -------------------------
+TASK_STATE_FILE = "completed_tasks.json"
+
+def load_completed_tasks():
+    if os.path.exists(TASK_STATE_FILE):
+        with open(TASK_STATE_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+def save_completed_tasks(data):
+    with open(TASK_STATE_FILE, "w") as f:
+        json.dump(data, f, indent=2)
+
+
 # ---------------------- Project Management -------------------------
 def get_projects():
     try:
@@ -131,8 +145,16 @@ with tab3:
     st.header("📋 Extracted Tasks")
 
     completed_key = f"{selected_project}_completed_tasks"
+    completed_path = os.path.join("completed_tasks.json")
+
+    # Load completed tasks from file if available
     if completed_key not in st.session_state:
-        st.session_state[completed_key] = []
+        if os.path.exists(completed_path):
+            with open(completed_path, "r") as f:
+                all_completed = json.load(f)
+                st.session_state[completed_key] = all_completed.get(completed_key, [])
+        else:
+            st.session_state[completed_key] = []
 
     if st.button("🔍 Extract Tasks"):
         try:
@@ -144,7 +166,14 @@ with tab3:
                     data = response.json()
                     st.session_state.tasks = data.get("tasks", [])
                     st.session_state.task_timings = data.get("timings", {})
-                    st.session_state[completed_key] = []
+
+                    # Reload completed tasks from file
+                    if os.path.exists(completed_path):
+                        with open(completed_path, "r") as f:
+                            all_completed = json.load(f)
+                            st.session_state[completed_key] = all_completed.get(completed_key, [])
+                    else:
+                        st.session_state[completed_key] = []
                 else:
                     st.error(f"❌ Task extraction failed: {response.status_code}")
                     st.text(response.text)
@@ -179,6 +208,17 @@ with tab3:
                     if submitted:
                         if task not in st.session_state[completed_key]:
                             st.session_state[completed_key].append(task)
+
+                            # Save to JSON file
+                            if os.path.exists(completed_path):
+                                with open(completed_path, "r") as f:
+                                    all_completed = json.load(f)
+                            else:
+                                all_completed = {}
+                            all_completed[completed_key] = st.session_state[completed_key]
+                            with open(completed_path, "w") as f:
+                                json.dump(all_completed, f, indent=2)
+
                             st.rerun()
 
     # -------- Completed Task Cards --------
@@ -202,4 +242,15 @@ with tab3:
                         if unmark:
                             if task in st.session_state[completed_key]:
                                 st.session_state[completed_key].remove(task)
+
+                                # Save to JSON
+                                if os.path.exists(completed_path):
+                                    with open(completed_path, "r") as f:
+                                        all_completed = json.load(f)
+                                else:
+                                    all_completed = {}
+                                all_completed[completed_key] = st.session_state[completed_key]
+                                with open(completed_path, "w") as f:
+                                    json.dump(all_completed, f, indent=2)
+
                                 st.rerun()

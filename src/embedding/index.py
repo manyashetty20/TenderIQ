@@ -37,3 +37,51 @@ def save_index(vectors, chunks, project_name):
     build_and_save_index(vectors, chunks, save_path)
     print(f"🧠 Saving FAISS index to: {save_path}.index")
 
+def build_general_index():
+    print("🔄 Rebuilding general index...")
+    base_dir = "data/vector_stores"
+    all_chunks = []
+    all_vectors = []
+
+    for filename in os.listdir(base_dir):
+        if filename.endswith(".chunks.pkl"):
+            project = filename.replace(".chunks.pkl", "")
+            if project == "general":
+                continue
+
+            index_path = os.path.join(base_dir, f"{project}.index")
+            chunk_path = os.path.join(base_dir, f"{project}.chunks.pkl")
+
+            try:
+                print(f"📂 Processing project: {project}")
+
+                # Load chunks
+                with open(chunk_path, "rb") as f:
+                    chunks = pickle.load(f)
+                    print(f"  → Loaded {len(chunks)} chunks")
+                    all_chunks.extend(chunks)
+
+                # Load index and extract each vector
+                index = faiss.read_index(index_path)
+                print(f"  → Found {index.ntotal} vectors")
+                for i in range(index.ntotal):
+                    vector = index.reconstruct(i)
+                    all_vectors.append(vector)
+            except Exception as e:
+                print(f"⚠️ Skipping {project}: {e}")
+                continue
+
+    print(f"🧩 Collected total {len(all_chunks)} chunks and {len(all_vectors)} vectors")
+
+    if not all_chunks or not all_vectors:
+        print("⚠️ No data found to build general index.")
+        return
+
+    # Save under 'general'
+    save_index(all_vectors, all_chunks, "general")
+    print("✅ General index built successfully.")
+
+
+if __name__ == "__main__":
+    build_general_index()
+

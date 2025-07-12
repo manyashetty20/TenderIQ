@@ -24,10 +24,13 @@ def save_projects(projects):
     with open(PROJECTS_FILE, "w") as f:
         json.dump({"projects": projects}, f)
 
-# 🔍 Get all projects
+# 🔍 Get all projects (include 'general')
 @router.get("/projects/")
 def get_projects():
-    return {"projects": load_projects()}
+    projects = load_projects()
+    if "general" not in projects:
+        projects.insert(0, "general")  # Put 'general' at the top (optional)
+    return {"projects": projects}
 
 # ➕ Add new project (JSON input)
 @router.post("/projects/")

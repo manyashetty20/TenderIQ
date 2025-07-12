@@ -5,7 +5,7 @@ from datetime import datetime
 from src.processing.parser import extract_text
 from src.processing.chunker import split_into_chunks
 from src.embedding.model import get_embedder
-from src.embedding.index import save_index, load_index_and_chunks  # <- NEW
+from src.embedding.index import save_index, load_index_and_chunks, build_general_index
 import shutil
 import tempfile
 
@@ -25,10 +25,6 @@ else:
 
 # ---------- helper: merge amendment text with existing main ----------
 def merge_texts(main_txt: str, amend_txt: str) -> str:
-    """
-    Very simple strategy: put amended clauses first so they override.
-    You can replace this with smarter diff/patch logic later.
-    """
     return amend_txt.strip() + "\n\n" + main_txt.strip()
 
 
@@ -36,7 +32,7 @@ def merge_texts(main_txt: str, amend_txt: str) -> str:
 def upload_document(
     file: UploadFile = File(...),
     project: str = Form(...),
-    doc_type: str = Form(...),   # Main / Amendment
+    doc_type: str = Form(...),
     version: str = Form(...)
 ):
     try:
@@ -60,23 +56,15 @@ def upload_document(
         safe_project = project.replace(" ", "_").replace("/", "_")
         base_index_path = f"data/vector_stores/{safe_project}"
 
-        if doc_type.lower().startswith("amendment") and os.path.exists(
-            base_index_path + ".index"
-        ):
-            # ▶ Merge with existing Main text
-            #    We assume the *current* index was built from Main (and maybe older amendments)
-            #    So we need that Main text again. Easiest: read it from disk.
-            #    We stored original uploads; find the latest Main file:
+        if doc_type.lower().startswith("amendment") and os.path.exists(base_index_path + ".index"):
             main_meta = version_tracker.get(project, {}).get("Main")
             if not main_meta:
-                # no Main yet – treat like normal
                 merged_text = new_text
             else:
                 main_file_path = os.path.join(project_dir, main_meta["filename"])
                 main_text = extract_text(main_file_path)
                 merged_text = merge_texts(main_text, new_text)
         else:
-            # First Main upload or some other doc_type – just use its text
             merged_text = new_text
 
         # ----- 4. Chunk + embed -------------------------------------------------
@@ -88,7 +76,15 @@ def upload_document(
         save_index(embeddings, chunks, safe_project)
         print(f"✅ Effective index updated for: {project}")
 
-        # ----- 6. Update metadata ----------------------------------------------
+        # ✅ ----- 6. Rebuild the general index ----------------------------------
+        print("🔄 Rebuilding general project index...")
+        try:
+            build_general_index()
+            print("✅ General index rebuild triggered successfully from upload.")
+        except Exception as e:
+            print(f"❌ Error while rebuilding general index: {e}")
+
+        # ----- 7. Update metadata ----------------------------------------------
         version_tracker.setdefault(project, {})
         version_tracker[project][doc_type] = {
             "latest_version": version,
@@ -103,7 +99,7 @@ def upload_document(
             "doc_type": doc_type,
             "version": version,
             "num_chunks": len(chunks),
-            "message": "Upload merged and index rebuilt.",
+            "message": "Upload merged and index rebuilt (including general).",
         }
 
     except Exception as e:

@@ -15,13 +15,11 @@ router = APIRouter()
 
 UPLOAD_METADATA = "data/uploads/file_versions.json"
 
-
 # ---------- Request schema ----------
 class QueryRequest(BaseModel):
     project: str
     question: str
     model: str = "llama"   # default model
-
 
 # ---------- Helper: doc‑type priority ----------
 def version_order(project: str) -> list[str]:
@@ -54,7 +52,6 @@ def version_order(project: str) -> list[str]:
 
     return order or ["Main"]
 
-
 # ---------- Helper: detect “no answer” responses ----------
 def looks_empty(txt: str) -> bool:
     if not txt or not txt.strip():
@@ -72,8 +69,6 @@ def looks_empty(txt: str) -> bool:
         "the information is not available in the document."
     ]
     return any(k in low for k in non)
-
-
 
 # ---------- FastAPI route ----------
 @router.post("/")
@@ -107,22 +102,41 @@ def ask_question(req: QueryRequest):
 
         # -- 4. Search for relevant chunks -------------------------------------
         retr_start = time.perf_counter()
-        retr_time = time.perf_counter() - retr_start
-        D, I = index.search(q_vector, k=20)
 
-        # Flatten and deduplicate indices
+        # ✅ Tunable k & threshold
+        k = 30  # How many to pull
+        score_threshold = 0.0  # Allow very weak matches!
+
+        D, I = index.search(q_vector, k=k)
+
         seen_text = set()
         relevant = []
-        for i in I[0]:
-            if i < len(chunks):
-                text = chunks[i].strip()
-                if text not in seen_text:
-                    seen_text.add(text)
-                    relevant.append(text)
 
+        print("\n🔍 Top retrieved chunks and scores:")
+        for distance, idx in zip(D[0], I[0]):
+            if idx < len(chunks):
+                similarity = 1 - distance
+                preview = chunks[idx][:120].replace("\n", " ").strip()
+                print(f" • Chunk #{idx} | Similarity: {similarity:.3f} | {preview}")
 
+                if similarity >= score_threshold:
+                    text = chunks[idx].strip()
+                    if text not in seen_text:
+                        seen_text.add(text)
+                        relevant.append(text)
+
+        # ✅ Fallback: if *all* chunks too weak, take top 3 anyway
         if not relevant:
-            raise HTTPException(status_code=404, detail="No relevant chunks found.")
+            fallback_count = 3
+            print(f"\n⚠️ Fallback triggered: using top {fallback_count} chunks anyway.")
+            for idx in I[0][:fallback_count]:
+                if idx < len(chunks):
+                    text = chunks[idx].strip()
+                    if text not in seen_text:
+                        seen_text.add(text)
+                        relevant.append(text)
+
+        retr_time = time.perf_counter() - retr_start
 
         # -- 5. Generate response from LLM -------------------------------------
         prompt = build_prompt(req.question, relevant)

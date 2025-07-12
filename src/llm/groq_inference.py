@@ -18,7 +18,7 @@ client = Groq(api_key=GROQ_API_KEY)
 def get_groq_response(prompt: str) -> tuple[str, float]:
     try:
         # Prepare prompt
-        trimmed_prompt = prompt.strip()[:3500]
+        trimmed_prompt = prompt.strip()
 
         print(f"\n📤 Prompt to Groq (length: {len(trimmed_prompt)} chars):\n", trimmed_prompt)
 

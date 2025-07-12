@@ -36,5 +36,19 @@
       "category": "requirement"
     }
   ],
-  "Testing_completed_tasks": []
+  "Testing_completed_tasks": [],
+  "project_completed_tasks": [
+    {
+      "task": "Submit bid offers online on or before the date and time specified in Clause 6 of the detailed NIT",
+      "deadline": "TBD",
+      "status": "Pending",
+      "priority": "normal"
+    },
+    {
+      "task": "Submit bid offers online",
+      "deadline": "Date & time specified in Clause 6 of detailed NIT",
+      "status": "Pending",
+      "priority": "normal"
+    }
+  ]
 }

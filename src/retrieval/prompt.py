@@ -1,13 +1,14 @@
-import tiktoken
-
 def count_tokens(text: str) -> int:
-    # Use approximate: 1 token ~= 4 chars in English
-    return len(text) // 4
+    """
+    Approximates token count for LLaMA .gguf models.
+    LLaMA typically uses ~3.5 characters per token.
+    """
+    return int(len(text) / 3.5)
+
 
 def build_prompt(question: str, context_chunks: list[str]) -> str:
-    context = ""
     reserved_output_tokens = 512
-    max_ctx = 2048
+    max_ctx = 2048  # Context window for LLaMA 2 7B (adjust if using different model)
 
     static_template = """
 You are an AI assistant answering questions strictly using the provided CONTEXT.
@@ -29,7 +30,6 @@ You are an AI assistant answering questions strictly using the provided CONTEXT.
 """
 
     static_overhead = count_tokens(static_template) + count_tokens(question)
-
     used_tokens = static_overhead
     selected_chunks = []
 
@@ -42,7 +42,6 @@ You are an AI assistant answering questions strictly using the provided CONTEXT.
             break
 
     context = "\n\n".join(selected_chunks).strip()
-
     prompt = static_template.format(context=context, question=question)
 
     return prompt

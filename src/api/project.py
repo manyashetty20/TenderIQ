@@ -28,8 +28,8 @@ def save_projects(projects):
 @router.get("/projects/")
 def get_projects():
     projects = load_projects()
-    if "general" not in projects:
-        projects.insert(0, "general")  # Put 'general' at the top (optional)
+    if "General" not in projects:
+        projects.insert(0, "General")  # Put 'general' at the top (optional)
     return {"projects": projects}
 
 # ➕ Add new project (JSON input)

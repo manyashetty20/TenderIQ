@@ -68,50 +68,57 @@ st.sidebar.markdown(f"**Selected:** `{selected_project}`")
 
 
 # ---------------------- Main Tabs -------------------------
-tab1, tab2, tab3 = st.tabs(["📁 Upload", "💬 Chat", "📋 Tasks"])
+if selected_project.lower() == "general":
+    tab2, tab3 = st.tabs(["💬 Chat", "📋 Tasks"])
+    show_upload_tab = False
+else:
+    tab1, tab2, tab3 = st.tabs(["📁 Upload", "💬 Chat", "📋 Tasks"])
+    show_upload_tab = True
 
 # ---------------------- Tab 1: Upload -------------------------
-with tab1:
-    st.header("📁 Upload Tender Document")
-    uploaded_file = st.file_uploader("Upload a PDF or DOCX file", type=["pdf", "docx"])
-    doc_type = st.selectbox("Document Type", ["Main", "Amendment"])
-    version = st.text_input("Version (e.g., 1 or 2)", "1")
+if show_upload_tab:
+    with tab1:
+        st.header("📁 Upload Tender Document")
+        uploaded_file = st.file_uploader("Upload a PDF or DOCX file", type=["pdf", "docx"])
+        doc_type = st.selectbox("Document Type", ["Main", "Amendment"])
+        version = st.text_input("Version (e.g., 1 or 2)", "1")
 
-    show_file_list = True  # we’ll control whether to display files
+        show_file_list = True  # we’ll control whether to display files
 
-    if uploaded_file and st.button("Upload Document"):
-        with st.spinner("Uploading to backend..."):
-            try:
-                files = {"file": (uploaded_file.name, uploaded_file, uploaded_file.type)}
-                data = {"project": selected_project, "doc_type": doc_type, "version": version}
-                response = requests.post(f"{API_BASE}/upload/", files=files, data=data)
-                if response.status_code == 200:
-                    st.success("✅ Document uploaded and processed successfully.")
-                    st.json(response.json())  # <-- ✅ keeps that old message
-                else:
+        if uploaded_file and st.button("Upload Document"):
+            with st.spinner("Uploading to backend..."):
+                try:
+                    files = {"file": (uploaded_file.name, uploaded_file, uploaded_file.type)}
+                    data = {"project": selected_project, "doc_type": doc_type, "version": version}
+                    response = requests.post(f"{API_BASE}/upload/", files=files, data=data)
+                    if response.status_code == 200:
+                        st.success("✅ Document uploaded and processed successfully.")
+                        st.json(response.json())  # <-- ✅ keeps that old message
+                    else:
+                        show_file_list = False
+                        st.error(f"❌ Upload failed with status code {response.status_code}")
+                        st.text(response.text)
+                except Exception as e:
                     show_file_list = False
-                    st.error(f"❌ Upload failed with status code {response.status_code}")
-                    st.text(response.text)
-            except Exception as e:
-                show_file_list = False
-                st.error(f"❌ Upload failed: {e}")
+                    st.error(f"❌ Upload failed: {e}")
 
-    # ✅ Always show the uploaded files list unless something went wrong
-    if show_file_list:
-        st.subheader("📄 Uploaded Files")
-        try:
-            res = requests.get(f"{API_BASE}/upload/list_files/{selected_project}")
-            if res.ok:
-                file_list = res.json().get("files", [])
-                if file_list:
-                    for file in file_list:
-                        st.markdown(f"- {file}")
+        # ✅ Always show the uploaded files list unless something went wrong
+        if show_file_list:
+            st.subheader("📄 Uploaded Files")
+            try:
+                res = requests.get(f"{API_BASE}/upload/list_files/{selected_project}")
+                if res.ok:
+                    file_list = res.json().get("files", [])
+                    if file_list:
+                        for file in file_list:
+                            st.markdown(f"- {file}")
+                    else:
+                        st.info("No files uploaded yet.")
                 else:
-                    st.info("No files uploaded yet.")
-            else:
-                st.error("Failed to fetch uploaded files.")
-        except Exception as e:
-            st.error(f"Error fetching files: {e}")
+                    st.error("Failed to fetch uploaded files.")
+            except Exception as e:
+                st.error(f"Error fetching files: {e}")
+
 
 # ---------------------- Tab 2: Chat Interface -------------------------
 with tab2:

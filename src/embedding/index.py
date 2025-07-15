@@ -46,7 +46,7 @@ def build_general_index():
     for filename in os.listdir(base_dir):
         if filename.endswith(".chunks.pkl"):
             project = filename.replace(".chunks.pkl", "")
-            if project == "general":
+            if project == "General":
                 continue
 
             index_path = os.path.join(base_dir, f"{project}.index")
@@ -78,7 +78,7 @@ def build_general_index():
         return
 
     # Save under 'general'
-    save_index(all_vectors, all_chunks, "general")
+    save_index(all_vectors, all_chunks, "General")
     print("✅ General index built successfully.")
 
 

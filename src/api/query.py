@@ -5,6 +5,8 @@ import traceback
 import os
 import json
 import time
+import numpy as np
+import faiss
 
 from src.embedding.index import load_index_and_chunks
 from src.embedding.model import get_embedder
@@ -12,72 +14,65 @@ from src.retrieval.prompt import build_prompt
 from src.llm.inference import get_model_response
 
 router = APIRouter()
-
+VECTOR_STORE_DIR = "data/vector_stores"
 UPLOAD_METADATA = "data/uploads/file_versions.json"
 
-# ---------- Request schema ----------
+
 class QueryRequest(BaseModel):
     project: str
     question: str
-    model: str = "llama"   # default model
+    model: str = "llama"
 
-# ---------- Helper: doc‑type priority ----------
-def version_order(project: str) -> list[str]:
+
+def get_combined_index_and_chunks(project: str):
     """
-    Return doc_types (Amendment, Clarification, QnA, Main…) in the order we
-    should try them, based on file_versions.json.
+    Loads and merges amendment and main indexes if they exist.
+    Returns merged FAISS index and combined chunks.
     """
-    try:
-        with open(UPLOAD_METADATA) as f:
-            meta = json.load(f)
-    except FileNotFoundError:
-        return ["Main"]
+    safe_project = project.replace(" ", "_").replace("/", "_").lower()
 
-    proj_meta = meta.get(project, {})
-    if not proj_meta:
-        return ["Main"]
+    if safe_project == "general":
+        print("✅ Using general index")
+        return load_index_and_chunks("general")
 
-    # 1️⃣  Amendments in DESC version order
-    amds = [
-        (k, int(v.get("latest_version", "0")))
-        for k, v in proj_meta.items()
-        if k.lower().startswith("amendment")
-    ]
-    amds_sorted = [k for k, _ in sorted(amds, key=lambda x: x[1], reverse=True)]
+    amend_key = f"{safe_project}_amendment"
+    main_key = f"{safe_project}_main"
 
-    order = amds_sorted
-    for t in ("Clarification", "QnA", "Main"):
-        if t in proj_meta and t not in order:
-            order.append(t)
+    all_vectors = []
+    all_chunks = []
 
-    return order or ["Main"]
+    for key in [amend_key, main_key]:
+        index_path = os.path.join(VECTOR_STORE_DIR, key + ".index")
+        chunk_path = os.path.join(VECTOR_STORE_DIR, key + ".chunks.pkl")
 
-# ---------- Helper: detect “no answer” responses ----------
-def looks_empty(txt: str) -> bool:
-    if not txt or not txt.strip():
-        return True
-    low = txt.lower().strip()
-    non = [
-        "not found",
-        "could not",
-        "couldn't",
-        "no information",
-        "not specified",
-        "unknown",
-        "n/a",
-        "no answer",
-        "the information is not available in the document."
-    ]
-    return any(k in low for k in non)
+        if os.path.exists(index_path) and os.path.exists(chunk_path):
+            try:
+                index, chunks = load_index_and_chunks(key)
+                for i in range(index.ntotal):
+                    vec = index.reconstruct(i)
+                    all_vectors.append(vec)
+                all_chunks.extend(chunks)
+                print(f"✅ Loaded {len(chunks)} chunks from {key}")
+            except Exception as e:
+                print(f"⚠️ Failed to load {key}: {e}")
 
-# ---------- FastAPI route ----------
+    if not all_vectors:
+        raise FileNotFoundError(f"No index found for project '{project}'.")
+
+    dim = len(all_vectors[0])
+    merged_index = faiss.IndexFlatL2(dim)
+    merged_index.add(np.array(all_vectors, dtype=np.float32))
+
+    return merged_index, all_chunks
+
+
 @router.post("/")
 def ask_question(req: QueryRequest):
     try:
         total_start = time.perf_counter()
+        safe_project = req.project.replace("/", "_").replace(" ", "_").lower()
 
-        # -- 1. Log the question ----------------------------------------------
-        safe_project = req.project.replace("/", "_").replace(" ", "_")
+        # Log question
         log_path = f"data/chunks/{safe_project}_questions.json"
         os.makedirs("data/chunks", exist_ok=True)
         entry = {"timestamp": datetime.now().isoformat(), "question": req.question}
@@ -90,45 +85,37 @@ def ask_question(req: QueryRequest):
         with open(log_path, "w") as f:
             json.dump(log_data, f, indent=2)
 
-        # -- 2. Embed question ------------------------------------------------
+        # Embed question
         embedder = get_embedder()
         embed_start = time.perf_counter()
         q_vector = embedder.encode([req.question]).astype("float32")
         embed_time = time.perf_counter() - embed_start
 
-        # -- 3. Load single merged index --------------------------------------
-        index_path = f"data/vector_stores/{safe_project}"
-        index, chunks = load_index_and_chunks(index_path)
+        # Load merged index and chunks
+        index, chunks = get_combined_index_and_chunks(req.project)
 
-        # -- 4. Search for relevant chunks -------------------------------------
+        # Retrieve top chunks
         retr_start = time.perf_counter()
+        score_threshold = 0.0
+        D, I = index.search(q_vector, index.ntotal)
 
-        # ✅ Tunable k & threshold
-        k = 30  # How many to pull
-        score_threshold = 0.0  # Allow very weak matches!
-
-        D, I = index.search(q_vector, k=k)
-
+        chunk_scores = [(chunks[idx], 1 - D[0][rank]) for rank, idx in enumerate(I[0]) if idx < len(chunks)]
         seen_text = set()
         relevant = []
 
-        print("\n🔍 Top retrieved chunks and scores:")
-        for distance, idx in zip(D[0], I[0]):
-            if idx < len(chunks):
-                similarity = 1 - distance
-                preview = chunks[idx][:120].replace("\n", " ").strip()
-                print(f" • Chunk #{idx} | Similarity: {similarity:.3f} | {preview}")
+        print("\n🔍 Sorted top retrieved chunks and similarity scores:")
+        for chunk, score in chunk_scores:
+            if chunk not in seen_text and score >= score_threshold:
+                seen_text.add(chunk)
+                relevant.append(chunk)
+                preview = chunk[:120].replace("\n", " ").strip()
+                print(f" • Similarity: {score:.3f} | {preview}")
+                if len(relevant) >= 30:
+                    break
 
-                if similarity >= score_threshold:
-                    text = chunks[idx].strip()
-                    if text not in seen_text:
-                        seen_text.add(text)
-                        relevant.append(text)
-
-        # ✅ Fallback: if *all* chunks too weak, take top 3 anyway
         if not relevant:
+            print("⚠️ No chunks passed the score threshold. Triggering fallback.")
             fallback_count = 3
-            print(f"\n⚠️ Fallback triggered: using top {fallback_count} chunks anyway.")
             for idx in I[0][:fallback_count]:
                 if idx < len(chunks):
                     text = chunks[idx].strip()
@@ -138,7 +125,7 @@ def ask_question(req: QueryRequest):
 
         retr_time = time.perf_counter() - retr_start
 
-        # -- 5. Generate response from LLM -------------------------------------
+        # Build prompt and query LLM
         prompt = build_prompt(req.question, relevant)
         answer, llm_time = get_model_response(prompt, req.model)
 
@@ -158,6 +145,8 @@ def ask_question(req: QueryRequest):
             }
         }
 
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
     except HTTPException:
         raise
     except Exception as e:

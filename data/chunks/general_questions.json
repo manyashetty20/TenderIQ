@@ -10,5 +10,21 @@
   {
     "timestamp": "2025-07-15T11:07:34.629047",
     "question": "What is the estimated total quantity of ONTs to be procured under this tender?"
+  },
+  {
+    "timestamp": "2025-07-15T16:22:09.144841",
+    "question": "how long is the warranty period for this tender"
+  },
+  {
+    "timestamp": "2025-07-15T16:23:21.274893",
+    "question": "how long is the warranty period from this tender"
+  },
+  {
+    "timestamp": "2025-07-15T16:23:47.071127",
+    "question": "What is the name of the spoc"
+  },
+  {
+    "timestamp": "2025-07-15T16:24:07.610313",
+    "question": "What is the name of the single point of contact"
   }
 ]

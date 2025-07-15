@@ -34,6 +34,13 @@
       "priority": "normal",
       "source": "regex",
       "category": "requirement"
+    },
+    {
+      "task": "SA-Part(ii) \ndated June 01, 2023 issued by DOT, ONT should be NSDTS and MTCTE certified.",
+      "deadline": "June 01",
+      "priority": "high",
+      "source": "regex",
+      "category": "deadline"
     }
   ],
   "Testing_completed_tasks": [],

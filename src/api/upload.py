@@ -8,6 +8,7 @@ from src.embedding.model import get_embedder
 from src.embedding.index import save_index, load_index_and_chunks, build_general_index
 import shutil
 import tempfile
+from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
@@ -105,3 +106,14 @@ def upload_document(
     except Exception as e:
         print(e)
         return {"error": str(e)}
+
+@router.get("/list_files/{project}")
+def list_uploaded_files(project: str):
+    safe_project = project.replace(" ", "_")
+    project_path = os.path.join(UPLOAD_DIR, safe_project)
+
+    if not os.path.exists(project_path):
+        return JSONResponse(content={"files": []})
+
+    files = os.listdir(project_path)
+    return JSONResponse(content={"files": files})

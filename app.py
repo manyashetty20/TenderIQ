@@ -66,6 +66,7 @@ project_names = get_projects()
 selected_project = st.sidebar.selectbox("Select Tender Project", project_names)
 st.sidebar.markdown(f"**Selected:** `{selected_project}`")
 
+
 # ---------------------- Main Tabs -------------------------
 tab1, tab2, tab3 = st.tabs(["📁 Upload", "💬 Chat", "📋 Tasks"])
 
@@ -76,6 +77,8 @@ with tab1:
     doc_type = st.selectbox("Document Type", ["Main", "Amendment"])
     version = st.text_input("Version (e.g., 1 or 2)", "1")
 
+    show_file_list = True  # we’ll control whether to display files
+
     if uploaded_file and st.button("Upload Document"):
         with st.spinner("Uploading to backend..."):
             try:
@@ -84,12 +87,31 @@ with tab1:
                 response = requests.post(f"{API_BASE}/upload/", files=files, data=data)
                 if response.status_code == 200:
                     st.success("✅ Document uploaded and processed successfully.")
-                    st.json(response.json())
+                    st.json(response.json())  # <-- ✅ keeps that old message
                 else:
+                    show_file_list = False
                     st.error(f"❌ Upload failed with status code {response.status_code}")
                     st.text(response.text)
             except Exception as e:
+                show_file_list = False
                 st.error(f"❌ Upload failed: {e}")
+
+    # ✅ Always show the uploaded files list unless something went wrong
+    if show_file_list:
+        st.subheader("📄 Uploaded Files")
+        try:
+            res = requests.get(f"{API_BASE}/upload/list_files/{selected_project}")
+            if res.ok:
+                file_list = res.json().get("files", [])
+                if file_list:
+                    for file in file_list:
+                        st.markdown(f"- {file}")
+                else:
+                    st.info("No files uploaded yet.")
+            else:
+                st.error("Failed to fetch uploaded files.")
+        except Exception as e:
+            st.error(f"Error fetching files: {e}")
 
 # ---------------------- Tab 2: Chat Interface -------------------------
 with tab2:

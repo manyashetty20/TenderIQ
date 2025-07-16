@@ -120,6 +120,8 @@ def upload_document(
             print("✅ General index rebuilt")
         except Exception as e:
             print(f"❌ Failed to rebuild general index: {e}")
+        
+
 
         return {
             "project": project,
@@ -128,6 +130,7 @@ def upload_document(
             "num_chunks": len(new_chunks),
             "message": "Upload successful, index updated, and general index rebuilt"
         }
+    
 
     except Exception as e:
         traceback.print_exc()

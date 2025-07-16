@@ -1,0 +1,66 @@
+[
+  {
+    "timestamp": "2025-07-16T13:05:55.012389",
+    "question": "What is the average Earnest Money Deposit (EMD) amount across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T15:03:56.253293",
+    "question": "Who is the issuing authority of this RFP?"
+  },
+  {
+    "timestamp": "2025-07-16T15:04:09.549948",
+    "question": " What is the Tender Reference Number?"
+  },
+  {
+    "timestamp": "2025-07-16T15:04:23.066161",
+    "question": "What is the estimated quantity for GPON OLT with 4 PON ports?"
+  },
+  {
+    "timestamp": "2025-07-16T15:04:41.730220",
+    "question": "What is the Earnest Money Deposit (EMD) amount?"
+  },
+  {
+    "timestamp": "2025-07-16T15:04:53.233754",
+    "question": "When is the last date to submit bids?"
+  },
+  {
+    "timestamp": "2025-07-16T15:05:07.164854",
+    "question": "What is the contract period specified in this RFP?"
+  },
+  {
+    "timestamp": "2025-07-16T15:05:19.171661",
+    "question": "What is the warranty period for supplied products?"
+  },
+  {
+    "timestamp": "2025-07-16T15:05:35.152423",
+    "question": "What is the minimum turnover required for the bidder?"
+  },
+  {
+    "timestamp": "2025-07-16T15:05:53.596918",
+    "question": "What is the minimum technical eligibility for similar works?"
+  },
+  {
+    "timestamp": "2025-07-16T15:06:41.972791",
+    "question": "What is the required Performance Security (PS) amount?"
+  },
+  {
+    "timestamp": "2025-07-16T15:06:52.189249",
+    "question": ". What is the validity period of the bid?"
+  },
+  {
+    "timestamp": "2025-07-16T15:07:03.170945",
+    "question": "Where should the bids be submitted?"
+  },
+  {
+    "timestamp": "2025-07-16T15:07:20.497218",
+    "question": "When is the pre-bid meeting scheduled?"
+  },
+  {
+    "timestamp": "2025-07-16T15:07:31.348078",
+    "question": "What is the total estimated quantity for xPON ONT Type-1?"
+  },
+  {
+    "timestamp": "2025-07-16T15:07:46.357639",
+    "question": "Does the equipment need to support IPv6?"
+  }
+]

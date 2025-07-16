@@ -110,5 +110,38 @@
       "filename": "Main_v1_ONT Tender-01082024.pdf",
       "uploaded_at": "2025-07-12T23:10:00.596936"
     }
+  },
+  "ONT": {
+    "main": {
+      "latest_version": "1",
+      "filename": "main_v1_Internship Letter_PES1UG23AM175_RiddhiSamitha_old.docx",
+      "uploaded_at": "2025-07-16T14:22:48.071385"
+    },
+    "amendment": {
+      "latest_version": "1",
+      "filename": "amendment_v1_NFS DWDM Tender Doc_455.docx",
+      "uploaded_at": "2025-07-16T14:22:24.765763"
+    }
+  },
+  "NFS": {
+    "main": {
+      "latest_version": "1",
+      "filename": "main_v1_NFS DWDM Tender Doc_455.docx",
+      "uploaded_at": "2025-07-16T12:38:24.180257"
+    }
+  },
+  "RFP": {
+    "main": {
+      "latest_version": "1",
+      "filename": "main_v1_RFP.pdf",
+      "uploaded_at": "2025-07-16T12:38:43.317545"
+    }
+  },
+  "OLTE": {
+    "main": {
+      "latest_version": "1",
+      "filename": "main_v1_RevisedtenderOLTE.pdf",
+      "uploaded_at": "2025-07-16T15:15:40.797934"
+    }
   }
 }

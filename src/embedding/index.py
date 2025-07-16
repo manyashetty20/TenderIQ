@@ -112,7 +112,12 @@ def build_general_index():
                 for i in range(index.ntotal):
                     vec = index.reconstruct(i)
                     all_vectors.append(vec)
-                all_chunks.extend(chunks)
+
+                # ✅ Tag chunks with project name for stat queries
+                project_name = key.replace("_amendment", "").replace("_main", "").replace("_", " ").title()
+                tagged_chunks = [f"[{project_name}]\n{chunk.strip()}" for chunk in chunks]
+
+                all_chunks.extend(tagged_chunks)
                 print(f"✅ Included {len(chunks)} chunks from {key}")
             except Exception as e:
                 print(f"⚠️ Skipped {key}: {e}")
@@ -123,3 +128,4 @@ def build_general_index():
 
     vectors_np = np.array(all_vectors, dtype=np.float32)
     save_index(vectors_np, all_chunks, "general", overwrite=True)
+

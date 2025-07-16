@@ -1,30 +1,294 @@
 [
   {
-    "timestamp": "2025-07-15T11:05:14.173964",
-    "question": "What is the period of validity for the bids?"
+    "timestamp": "2025-07-16T12:39:16.575674",
+    "question": "What is the average Earnest Money Deposit (EMD) amount across all three tenders?"
   },
   {
-    "timestamp": "2025-07-15T11:06:43.496695",
-    "question": "What are the eligibility financial turnover requirements for bidders?"
+    "timestamp": "2025-07-16T12:39:33.856218",
+    "question": "What is the total estimated quantity of ONTs across the BSNL ONT Tender and KFON RFP combined?"
   },
   {
-    "timestamp": "2025-07-15T11:07:34.629047",
-    "question": "What is the estimated total quantity of ONTs to be procured under this tender?"
+    "timestamp": "2025-07-16T12:40:38.353853",
+    "question": "What is the range of warranty periods specified in these tenders?"
   },
   {
-    "timestamp": "2025-07-15T16:22:09.144841",
-    "question": "how long is the warranty period for this tender"
+    "timestamp": "2025-07-16T12:40:55.666037",
+    "question": "What is the average bid validity period across all tenders"
   },
   {
-    "timestamp": "2025-07-15T16:23:21.274893",
-    "question": "how long is the warranty period from this tender"
+    "timestamp": "2025-07-16T12:41:11.995037",
+    "question": "What is the total minimum turnover requirement summed across all tenders?"
   },
   {
-    "timestamp": "2025-07-15T16:23:47.071127",
-    "question": "What is the name of the spoc"
+    "timestamp": "2025-07-16T12:41:26.221236",
+    "question": "Which tender has the highest EMD amount?"
   },
   {
-    "timestamp": "2025-07-15T16:24:07.610313",
-    "question": "What is the name of the single point of contact"
+    "timestamp": "2025-07-16T12:41:36.824568",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T12:41:58.985251",
+    "question": "What is the combined minimum Performance Security required if a bidder wins all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T12:59:59.718525",
+    "question": "What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:00:34.501366",
+    "question": "What is the average bid validity period across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:01:32.312229",
+    "question": "What is the total minimum turnover requirement summed across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:02:10.927753",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:07:53.959777",
+    "question": "What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:08:00.160288",
+    "question": "What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:08:42.148253",
+    "question": "What is the average bid validity period across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:10:37.309320",
+    "question": "What is the total minimum turnover requirement summed across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:11:03.732246",
+    "question": "What is the total turnover summed across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:11:49.914791",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:14:18.795494",
+    "question": "What is the combined minimum Performance Security required if a bidder wins all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:17:18.540101",
+    "question": "What is the average Earnest Money Deposit (EMD) amount across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:18:20.404439",
+    "question": " What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:20:06.137654",
+    "question": " What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:20:29.065129",
+    "question": "What is the average Earnest Money Deposit (EMD) amount across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:20:58.599301",
+    "question": "What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:21:08.796828",
+    "question": "What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:21:41.804855",
+    "question": "What is the average bid validity period across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:21:53.509931",
+    "question": "What is the average bid validity period across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:22:16.011525",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:22:39.791501",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:25:10.751505",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:25:34.894753",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:26:29.193097",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:38:36.004772",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T13:38:58.266441",
+    "question": "What is the percentage of dual band ONTs out of the total?"
+  },
+  {
+    "timestamp": "2025-07-16T13:39:03.622326",
+    "question": "What is the percentage of dual band ONTs out of the total?"
+  },
+  {
+    "timestamp": "2025-07-16T13:40:10.275154",
+    "question": "What is the average umber of ONTs per band type"
+  },
+  {
+    "timestamp": "2025-07-16T13:40:57.294013",
+    "question": "What is the percentage of dual band ONTs out of the total?"
+  },
+  {
+    "timestamp": "2025-07-16T13:42:41.523994",
+    "question": "how long is the warranty period in the tendors"
+  },
+  {
+    "timestamp": "2025-07-16T13:55:30.621278",
+    "question": "Whats the warranty period"
+  },
+  {
+    "timestamp": "2025-07-16T13:55:55.468876",
+    "question": "What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T14:15:19.331940",
+    "question": "What is the range of warranty periods specified in these tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T14:15:42.693379",
+    "question": "What is the average bid validity period across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T14:16:57.003273",
+    "question": "What is the total minimum turnover requirement summed across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T14:17:22.760186",
+    "question": "What is the total  turnover requirement summed across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T14:18:31.339614",
+    "question": "What is the average Tender Fee across all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T14:19:20.938076",
+    "question": "What is the combined minimum Performance Security required if a bidder wins all three tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T15:20:10.976524",
+    "question": "What is the total OLT quantity combining this Revised OLT Tender and the KFON RFP?"
+  },
+  {
+    "timestamp": "2025-07-16T15:20:55.676727",
+    "question": "What is the average EMD across the Revised OLT Tender and the other tenders"
+  },
+  {
+    "timestamp": "2025-07-16T15:21:30.383979",
+    "question": "what is the average  bid validity period"
+  },
+  {
+    "timestamp": "2025-07-16T15:21:46.688002",
+    "question": "what is the average  bid validity period"
+  },
+  {
+    "timestamp": "2025-07-16T15:22:54.960414",
+    "question": "what is the average  bid validity period"
+  },
+  {
+    "timestamp": "2025-07-16T15:27:48.734084",
+    "question": "What is the average bid validity period"
+  },
+  {
+    "timestamp": "2025-07-16T15:28:20.967494",
+    "question": "What is the average bid validity period"
+  },
+  {
+    "timestamp": "2025-07-16T15:31:00.953186",
+    "question": "What is the total OLT combining this Revised OLT Tender and the KFON RFP?"
+  },
+  {
+    "timestamp": "2025-07-16T15:31:17.081572",
+    "question": "What is the total OLT  quantity combining this Revised OLT Tender and the KFON RFP?"
+  },
+  {
+    "timestamp": "2025-07-16T15:32:40.358283",
+    "question": "What is the total quantity of GPON OLTs to be supplied under this Revised OLT Tender?"
+  },
+  {
+    "timestamp": "2025-07-16T15:33:03.763444",
+    "question": "How many OLTs are to be procured according to the Revised OLT Tender?"
+  },
+  {
+    "timestamp": "2025-07-16T15:33:45.000816",
+    "question": "Mention the estimated number of OLTs covered in this Revised Tender."
+  },
+  {
+    "timestamp": "2025-07-16T15:34:33.780745",
+    "question": "As per the Revised OLT Tender, what is the total supply quantity for OLT equipment?"
+  },
+  {
+    "timestamp": "2025-07-16T15:35:13.862051",
+    "question": "What is the total number of GPON 4-Port OLTs specified in this tender"
+  },
+  {
+    "timestamp": "2025-07-16T15:39:43.974779",
+    "question": "What is the total quantity of GPON OLTs to be supplied under this Revised OLT Tender in revised olte?"
+  },
+  {
+    "timestamp": "2025-07-16T15:39:49.981946",
+    "question": "What is the total quantity of GPON OLTs to be supplied under this Revised OLT Tender in revised olte?"
+  },
+  {
+    "timestamp": "2025-07-16T15:40:51.597202",
+    "question": "What is the total quantity of GPON OLTs to be supplied under this Revised OLT Tender in revised olte?"
+  },
+  {
+    "timestamp": "2025-07-16T15:42:07.866909",
+    "question": "What is the total quantity of GPON OLTs to be supplied under this Revised OLT Tender in revised olte?"
+  },
+  {
+    "timestamp": "2025-07-16T15:42:19.803604",
+    "question": "What is the quantity of GPON OLTs to be supplied under this Revised OLT Tender in revised olte?"
+  },
+  {
+    "timestamp": "2025-07-16T15:43:11.440782",
+    "question": "What is the number of GPON OLTs to be supplied under this Revised OLT Tender in revised olte?"
+  },
+  {
+    "timestamp": "2025-07-16T18:57:59.124046",
+    "question": "What is the average Tender Fee across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T18:58:15.902810",
+    "question": "What is the average Tender Fee across all tenders?"
+  },
+  {
+    "timestamp": "2025-07-16T18:58:31.433940",
+    "question": "What is the percentage of dual band ONTs out of the total?"
+  },
+  {
+    "timestamp": "2025-07-16T18:58:42.786458",
+    "question": "how long is the warranty period in the tendors"
+  },
+  {
+    "timestamp": "2025-07-16T18:59:00.980237",
+    "question": "what is the range of the warranty period in the tendors"
+  },
+  {
+    "timestamp": "2025-07-16T18:59:32.056023",
+    "question": "What is the range of warranty periods specified in these tenders"
+  },
+  {
+    "timestamp": "2025-07-16T19:00:01.852147",
+    "question": "What is the average bid validity period across all tenders?"
   }
 ]

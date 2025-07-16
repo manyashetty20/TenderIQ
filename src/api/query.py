@@ -7,10 +7,11 @@ import json
 import time
 import numpy as np
 import faiss
+import re
 
 from src.embedding.index import load_index_and_chunks
 from src.embedding.model import get_embedder
-from src.retrieval.prompt import build_prompt
+from src.retrieval.prompt import build_prompt, build_stat_prompt
 from src.llm.inference import get_model_response
 
 router = APIRouter()
@@ -23,12 +24,17 @@ class QueryRequest(BaseModel):
     question: str
     model: str = "llama"
 
+# ✅ Detect statistical question
+def is_stat_query(q):
+    keywords = ["average", "mean", "total", "sum", "range", "maximum", "minimum", "max", "min", "how many", "quantity", "number of", "count", "percent", "percentage", "duration"]
+    return any(k in q.lower() for k in keywords)
+
+# ✅ Detect numeric chunks
+def is_statistical_chunk(text):
+    return bool(re.search(r'\d{1,3}(?:,\d{3})*(?:\.\d+)?', text))  # e.g. 1,234.56 or 1234
+
 
 def get_combined_index_and_chunks(project: str):
-    """
-    Loads and merges amendment and main indexes if they exist.
-    Returns merged FAISS index and combined chunks.
-    """
     safe_project = project.replace(" ", "_").replace("/", "_").lower()
 
     if safe_project == "general":
@@ -113,6 +119,7 @@ def ask_question(req: QueryRequest):
                 if len(relevant) >= 30:
                     break
 
+        # Fallback
         if not relevant:
             print("⚠️ No chunks passed the score threshold. Triggering fallback.")
             fallback_count = 3
@@ -125,8 +132,25 @@ def ask_question(req: QueryRequest):
 
         retr_time = time.perf_counter() - retr_start
 
-        # Build prompt and query LLM
-        prompt = build_prompt(req.question, relevant)
+
+        # ✅ Inject numeric chunks if stat query
+        if is_stat_query(req.question) and len(relevant) < 10:
+            numeric_chunks = [c for c in chunks if is_statistical_chunk(c)]
+            for c in numeric_chunks:
+                if c not in seen_text:
+                    relevant.append(c)
+                    seen_text.add(c)
+                if len(relevant) >= 30:
+                    break
+
+        # Prompt selection
+        if is_stat_query(req.question):
+            from src.retrieval.prompt import build_stat_prompt
+            prompt = build_stat_prompt(req.question, relevant)
+        else:
+            prompt = build_prompt(req.question, relevant)
+
+        # LLM
         answer, llm_time = get_model_response(prompt, req.model)
 
         if not answer.strip():

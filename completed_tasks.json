@@ -57,5 +57,23 @@
       "status": "Pending",
       "priority": "normal"
     }
+  ],
+  "OLTE_completed_tasks": [
+    {
+      "task": "for 2200 OLTs, the delivery \nschedule will be as below: \n(a) First lot of 1000 or more OLTs by 21st April 2024.",
+      "deadline": "April 20",
+      "priority": "high",
+      "source": "regex",
+      "category": "deadline"
+    }
+  ],
+  "ONT_completed_tasks": [
+    {
+      "task": "in TEC/GR/TX/SDH-008/03 Jan 2011 shall be supplied.",
+      "deadline": "03 Jan",
+      "priority": "high",
+      "source": "regex",
+      "category": "requirement"
+    }
   ]
 }

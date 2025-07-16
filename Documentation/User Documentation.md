@@ -6,7 +6,9 @@
 
 > 1\. <u>Introduction</u>
 >
-> 2\. <u>System Requirements</u> 3. <u>Installation & Setup</u>
+> 2\. <u>System Requirements</u> 
+>
+>3\. <u>Installation & Setup</u>
 >
 > 4\. <u>Getting Started</u>
 >

@@ -4,11 +4,16 @@ import docx
 def parse_pdf(file_path: str) -> str:
     doc = fitz.open(file_path)
     all_text = []
+
     for i, page in enumerate(doc):
-        text = page.get_text()
-        print(f"[Page {i+1}] Extracted {len(text)} characters")
-        all_text.append(text)
-    return "\n".join(all_text)
+        blocks = page.get_text("blocks")
+        blocks.sort(key=lambda b: (round(b[1]), round(b[0])))
+        page_text = "\n".join(b[4].strip() for b in blocks if b[4].strip())
+        print(f"[Page {i+1}] Extracted {len(page_text)} characters, {len(blocks)} blocks")
+        all_text.append(page_text)
+
+    combined = "\n\n".join(all_text)
+    return clean_text(combined)
 
 def parse_docx(file_path: str) -> str:
     doc = docx.Document(file_path)
@@ -25,3 +30,21 @@ def extract_text(file_path: str) -> str:
         return parse_docx(file_path)
     else:
         raise ValueError("Unsupported file format. Only PDF and DOCX are supported.")
+
+def clean_text(text: str) -> str:
+    import re
+    lines = text.splitlines()
+    seen = set()
+    cleaned = []
+
+    for line in lines:
+        norm = line.strip()
+        if norm:
+            # Remove common page footer like "Page X of Y"
+            if re.match(r"(?i)^page \\d+ of \\d+", norm):
+                continue
+            if norm not in seen:
+                seen.add(norm)
+                cleaned.append(norm)
+
+    return "\n".join(cleaned)

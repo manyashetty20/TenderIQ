@@ -1,10 +1,90 @@
 [
   {
-    "timestamp": "2025-07-16T13:05:36.620891",
-    "question": "how long is the warranty period "
+    "timestamp": "2025-07-19T17:01:13.986874",
+    "question": "What is the tender number and issue date for this DWDM project?"
   },
   {
-    "timestamp": "2025-07-16T14:21:53.840726",
-    "question": "how long is the warranty period?"
+    "timestamp": "2025-07-19T17:01:35.102808",
+    "question": "What is the last date for receipt of bids for this tender?"
+  },
+  {
+    "timestamp": "2025-07-19T17:01:59.648046",
+    "question": "What is the Earnest Money Deposit (EMD) amount for this tender?"
+  },
+  {
+    "timestamp": "2025-07-19T17:02:24.128233",
+    "question": "What is the main objective of this tender?"
+  },
+  {
+    "timestamp": "2025-07-19T17:02:47.857884",
+    "question": "What is the main objective of this tender in detail?"
+  },
+  {
+    "timestamp": "2025-07-19T17:03:15.314293",
+    "question": "What is the scope of supply under this tender?"
+  },
+  {
+    "timestamp": "2025-07-19T17:03:39.697882",
+    "question": "What is the period of validity for the bids?"
+  },
+  {
+    "timestamp": "2025-07-19T17:03:57.914993",
+    "question": "What is the total cumulative turnover requirement for bidders?"
+  },
+  {
+    "timestamp": "2025-07-19T17:04:29.167947",
+    "question": "What is the minimum solvency certificate value required?"
+  },
+  {
+    "timestamp": "2025-07-19T17:05:01.754673",
+    "question": "What is the experience requirement for the bidder with Defence Services?"
+  },
+  {
+    "timestamp": "2025-07-19T17:05:21.304006",
+    "question": "How long is the warranty period and AMC period?"
+  },
+  {
+    "timestamp": "2025-07-19T17:05:41.753243",
+    "question": "What is the first stage payment percentage for material cost?"
+  },
+  {
+    "timestamp": "2025-07-19T17:06:03.417370",
+    "question": "What are the phases of project implementation?"
+  },
+  {
+    "timestamp": "2025-07-19T17:06:36.555226",
+    "question": "What are the eligible technical conditions for the bidder?"
+  },
+  {
+    "timestamp": "2025-07-19T17:06:56.570982",
+    "question": "Can one bidder submit multiple bids?"
+  },
+  {
+    "timestamp": "2025-07-19T17:07:19.151041",
+    "question": "Is teaming with OEMs mandatory?"
+  },
+  {
+    "timestamp": "2025-07-19T19:08:35.114149",
+    "question": "What is the tender number and issue date for this DWDM project?"
+  },
+  {
+    "timestamp": "2025-07-19T19:14:38.242584",
+    "question": "who  is the spoc?"
+  },
+  {
+    "timestamp": "2025-07-19T19:15:35.825527",
+    "question": "What is the last date for receipt of bids for this tender?"
+  },
+  {
+    "timestamp": "2025-07-19T19:17:58.967295",
+    "question": "what is the date of submission?"
+  },
+  {
+    "timestamp": "2025-07-19T19:20:08.770405",
+    "question": "what is the name of the spoc?"
+  },
+  {
+    "timestamp": "2025-07-19T19:20:44.040607",
+    "question": "What is the period of validity for the bids?"
   }
 ]

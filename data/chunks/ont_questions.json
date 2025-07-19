@@ -1,62 +1,70 @@
 [
   {
-    "timestamp": "2025-07-16T13:05:00.117391",
+    "timestamp": "2025-07-19T16:54:27.125949",
     "question": "What is the estimated total quantity of ONTs to be procured under this tender?"
   },
   {
-    "timestamp": "2025-07-16T13:05:27.782513",
-    "question": "how long is the warranty period in ONT?"
+    "timestamp": "2025-07-19T16:54:56.985448",
+    "question": "What is the last date for bid submission?"
   },
   {
-    "timestamp": "2025-07-16T13:50:06.433625",
-    "question": "how long is the warranty period in ONT?"
+    "timestamp": "2025-07-19T16:55:20.429881",
+    "question": "What is the Earnest Money Deposit (EMD) amount for this tender?"
   },
   {
-    "timestamp": "2025-07-16T14:21:44.121399",
-    "question": "how long is the warranty period?"
+    "timestamp": "2025-07-19T16:55:51.123857",
+    "question": "What is the EMD/bid offer amount for this tender?"
   },
   {
-    "timestamp": "2025-07-16T14:22:33.069719",
-    "question": "how long is the warranty period?"
+    "timestamp": "2025-07-19T16:56:07.823566",
+    "question": "Is the Tender Fee refundable?"
   },
   {
-    "timestamp": "2025-07-16T14:22:54.933616",
-    "question": "who is the spoc"
+    "timestamp": "2025-07-19T16:56:27.904950",
+    "question": "How long is the warranty period for the ONTs supplied under this contract?"
   },
   {
-    "timestamp": "2025-07-16T14:23:02.861291",
-    "question": "how long is the warranty period?"
+    "timestamp": "2025-07-19T16:56:56.695335",
+    "question": "What are the eligibility financial turnover requirements for bidders?"
   },
   {
-    "timestamp": "2025-07-16T14:23:08.541622",
-    "question": "how long is the warranty period in ont?"
+    "timestamp": "2025-07-19T16:57:25.693596",
+    "question": "Is there any exemption for MSEs for Tender Fee and EMD?"
   },
   {
-    "timestamp": "2025-07-16T19:00:59.784442",
-    "question": "What is the estimated total quantity of ONTs to be procured under this tender?"
+    "timestamp": "2025-07-19T16:57:47.493547",
+    "question": "What is the scope of supply under NFS tender?"
   },
   {
-    "timestamp": "2025-07-16T19:01:15.668115",
-    "question": "What is the estimated quantity of ONTs to be procured under this tender?"
+    "timestamp": "2025-07-19T16:58:22.673133",
+    "question": "How much payment is released upon delivery?"
   },
   {
-    "timestamp": "2025-07-16T19:01:57.042711",
-    "question": "Who is the spoc"
+    "timestamp": "2025-07-19T16:58:54.660128",
+    "question": "What Wi-Fi standards must the Dual Band ONT support?"
   },
   {
-    "timestamp": "2025-07-16T19:02:05.033734",
-    "question": "give details of the spoc"
+    "timestamp": "2025-07-19T16:59:13.063153",
+    "question": "Where should bidders send queries for clarifications?"
   },
   {
-    "timestamp": "2025-07-16T19:02:12.824347",
-    "question": "give maid id of the spoc"
+    "timestamp": "2025-07-19T16:59:37.113211",
+    "question": "Can BSNL vary the quantity ordered?"
   },
   {
-    "timestamp": "2025-07-16T19:02:24.291305",
-    "question": "how long is the warranty period ?"
+    "timestamp": "2025-07-19T17:00:03.365426",
+    "question": "What is the delivery timeline for the first Purchase Order?"
   },
   {
-    "timestamp": "2025-07-16T19:02:31.447683",
-    "question": "how long is the warranty period in ONT?"
+    "timestamp": "2025-07-19T17:00:21.950145",
+    "question": "Does the ONT need to be BIS approved?"
+  },
+  {
+    "timestamp": "2025-07-19T17:00:38.734718",
+    "question": "What special condition applies if BSNL orders ONTs without a voice port?"
+  },
+  {
+    "timestamp": "2025-07-20T00:11:19.949851",
+    "question": "What is the last date for bid submission?"
   }
 ]

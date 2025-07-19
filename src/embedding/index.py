@@ -128,4 +128,3 @@ def build_general_index():
 
     vectors_np = np.array(all_vectors, dtype=np.float32)
     save_index(vectors_np, all_chunks, "general", overwrite=True)
-

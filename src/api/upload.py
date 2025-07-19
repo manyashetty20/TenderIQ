@@ -10,6 +10,7 @@ from src.processing.parser import extract_text
 from src.processing.chunker import split_into_chunks
 from src.embedding.model import get_embedder
 from src.embedding.index import save_index, load_index_and_chunks, build_general_index
+from src.processing.metadata import extract_metadata  # ✅ Add this import
 
 router = APIRouter()
 
@@ -55,6 +56,10 @@ def upload_document(
         new_text = extract_text(file_path)
         if not new_text.strip():
             return {"error": "Could not extract text from file."}
+
+        # ✅ Extract tender metadata
+        meta = extract_metadata(file_path)
+        print(f"📌 Extracted metadata: {meta}")
 
         # 4. Merge with main if amendment
         if doc_type.startswith("amendment"):
@@ -108,7 +113,8 @@ def upload_document(
         version_tracker[project][doc_type] = {
             "latest_version": version,
             "filename": version_filename,
-            "uploaded_at": datetime.now().isoformat()
+            "uploaded_at": datetime.now().isoformat(),
+            "metadata": meta  # ✅ Store extracted metadata
         }
         with open(METADATA_PATH, "w") as f:
             json.dump(version_tracker, f, indent=2)
@@ -120,17 +126,15 @@ def upload_document(
             print("✅ General index rebuilt")
         except Exception as e:
             print(f"❌ Failed to rebuild general index: {e}")
-        
-
 
         return {
             "project": project,
             "doc_type": doc_type,
             "version": version,
             "num_chunks": len(new_chunks),
+            "metadata": meta,
             "message": "Upload successful, index updated, and general index rebuilt"
         }
-    
 
     except Exception as e:
         traceback.print_exc()

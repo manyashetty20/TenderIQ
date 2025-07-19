@@ -114,8 +114,13 @@
   "ONT": {
     "main": {
       "latest_version": "1",
-      "filename": "main_v1_Internship Letter_PES1UG23AM175_RiddhiSamitha_old.docx",
-      "uploaded_at": "2025-07-16T14:22:48.071385"
+      "filename": "main_v1_ONT Tender-01082024.pdf",
+      "uploaded_at": "2025-07-19T16:40:29.086116",
+      "metadata": {
+        "filename": "main_v1_ONT Tender-01082024.pdf",
+        "extension": ".pdf",
+        "size_kb": 2461
+      }
     },
     "amendment": {
       "latest_version": "1",
@@ -126,22 +131,48 @@
   "NFS": {
     "main": {
       "latest_version": "1",
-      "filename": "main_v1_NFS DWDM Tender Doc_455.docx",
-      "uploaded_at": "2025-07-16T12:38:24.180257"
+      "filename": "main_v1_xyz.pdf",
+      "uploaded_at": "2025-07-19T19:17:08.604821",
+      "metadata": {
+        "filename": "main_v1_xyz.pdf",
+        "extension": ".pdf",
+        "size_kb": 19
+      }
+    },
+    "amendment": {
+      "latest_version": "1",
+      "filename": "amendment_v1_Internship Letter_PES1UG23AM175_RiddhiSamitha_old.docx",
+      "uploaded_at": "2025-07-19T19:14:00.294092",
+      "metadata": {
+        "filename": "amendment_v1_Internship Letter_PES1UG23AM175_RiddhiSamitha_old.docx",
+        "extension": ".docx",
+        "size_kb": 15
+      }
     }
   },
   "RFP": {
     "main": {
       "latest_version": "1",
       "filename": "main_v1_RFP.pdf",
-      "uploaded_at": "2025-07-16T12:38:43.317545"
+      "uploaded_at": "2025-07-19T16:43:01.728810",
+      "metadata": {
+        "filename": "main_v1_RFP.pdf",
+        "extension": ".pdf",
+        "size_kb": 730,
+        "tender_ref": "KSITIL/KFON/2023-24/7675"
+      }
     }
   },
   "OLTE": {
     "main": {
       "latest_version": "1",
       "filename": "main_v1_RevisedtenderOLTE.pdf",
-      "uploaded_at": "2025-07-16T15:15:40.797934"
+      "uploaded_at": "2025-07-19T16:45:04.416091",
+      "metadata": {
+        "filename": "main_v1_RevisedtenderOLTE.pdf",
+        "extension": ".pdf",
+        "size_kb": 2879
+      }
     }
   }
 }

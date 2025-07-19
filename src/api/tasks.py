@@ -7,31 +7,29 @@ import time
 import traceback
 from typing import List, Dict, Any, Union
 from datetime import datetime, timedelta
+import calendar  # ✅ For safe day checks
 
 from src.embedding.index import load_index_and_chunks
 from src.llm.inference import get_model_response
-from src.retrieval.extractor import build_task_prompt  # Builds prompt from chunks
+from src.retrieval.extractor import build_task_prompt
 
-# ---------------------- Paths & router ----------------------
 TASK_DIR = "data/tasks"
 os.makedirs(TASK_DIR, exist_ok=True)
 
 router = APIRouter()
 
-# ---------------------- Request Schema ----------------------
 class TaskRequest(BaseModel):
     project: str
     model: str = "llama"
 
-# ---------------------- Regex helpers ----------------------
 MONTH_RE = (
     r"jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|"
     r"jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|"
     r"oct(?:ober)?|nov(?:ember)?|dec(?:ember)?"
 )
 
-REQ_RE = re.compile(r"[A-Z][^.]*\b(?:must|shall)\b[^.]*\.", re.IGNORECASE)
-DEADLINE_SENT_RE = re.compile(r"[A-Z][^.]*\b(?:before|by|within)\b[^.]*\.", re.IGNORECASE)
+REQ_RE = re.compile(r"[A-Z][^.]*\b(?:must|shall|should|submit|pay|provide)\b[^.]*\.", re.IGNORECASE)
+DEADLINE_SENT_RE = re.compile(r"[A-Z][^.]*\b(?:before|by|within|latest)\b[^.]*\.", re.IGNORECASE)
 
 DATE_ANY_RE = re.compile(
     rf"(\d{{4}}-\d{{2}}-\d{{2}}|"
@@ -52,12 +50,11 @@ MONTH_TO_NUM = {
 
 def parse_deadline(text: str) -> Union[datetime, None]:
     text = text.strip().lower()
-
     try:
         if re.fullmatch(r"\d{4}-\d{2}-\d{2}", text):
             return datetime.fromisoformat(text)
     except ValueError:
-        pass
+        return None
 
     m = re.fullmatch(r"(\d{1,4})\s*(days?|weeks?)", text)
     if m:
@@ -70,13 +67,23 @@ def parse_deadline(text: str) -> Union[datetime, None]:
     if m:
         day = int(m.group(1))
         month = MONTH_TO_NUM[m.group(2)[:3]]
-        return datetime(datetime.now().year, month, day)
+        try:
+            _, max_day = calendar.monthrange(datetime.now().year, month)
+            if 1 <= day <= max_day:
+                return datetime(datetime.now().year, month, day)
+        except Exception:
+            return None
 
     m = re.fullmatch(r"(" + MONTH_RE + r")\s+(\d{1,2})", text)
     if m:
         month = MONTH_TO_NUM[m.group(1)[:3]]
         day = int(m.group(2))
-        return datetime(datetime.now().year, month, day)
+        try:
+            _, max_day = calendar.monthrange(datetime.now().year, month)
+            if 1 <= day <= max_day:
+                return datetime(datetime.now().year, month, day)
+        except Exception:
+            return None
 
     return None
 
@@ -89,11 +96,10 @@ def extract_regex_tasks(all_text: str) -> List[Dict[str, Any]]:
         deadline_str = date_match.group(0) if date_match else ""
         tasks.append({
             "task": sent,
-            "deadline": deadline_str,
+            "deadline": deadline_str or "TBD",
             "priority": "high" if deadline_str else "normal",
             "deadline_parsed": parse_deadline(deadline_str) if deadline_str else None,
-            "source": "regex",
-            "category": "requirement"
+            "source": "regex"
         })
 
     for m in DEADLINE_SENT_RE.finditer(all_text):
@@ -102,11 +108,10 @@ def extract_regex_tasks(all_text: str) -> List[Dict[str, Any]]:
         deadline_str = date_match.group(0) if date_match else ""
         tasks.append({
             "task": sent,
-            "deadline": deadline_str,
+            "deadline": deadline_str or "TBD",
             "priority": "high",
             "deadline_parsed": parse_deadline(deadline_str) if deadline_str else None,
-            "source": "regex",
-            "category": "deadline"
+            "source": "regex"
         })
 
     return tasks
@@ -123,7 +128,7 @@ def tag_llm_tasks(tasks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             t["priority"] = "high"
             t["deadline_parsed"] = parse_deadline(dstr)
         else:
-            t.setdefault("deadline", "")
+            t.setdefault("deadline", "TBD")
             t.setdefault("priority", "normal")
             t["deadline_parsed"] = None
     return tasks
@@ -141,7 +146,7 @@ async def generate_tasks(req: TaskRequest):
         timings = {}
         total_start = time.perf_counter()
 
-        safe_proj = req.project.replace(" ", "_").replace("/", "_").lower()
+        safe_proj = req.project.replace(" ", "").replace("/", "").lower()
         base_path = os.path.join("data", "vector_stores")
 
         amend_key = f"{safe_proj}_amendment"

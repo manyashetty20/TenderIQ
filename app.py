@@ -196,7 +196,7 @@ with tab3:
                     st.session_state.tasks = data.get("tasks", [])
                     st.session_state.task_timings = data.get("timings", {})
 
-                    # Reload completed tasks from file
+                    # Reload completed tasks
                     if os.path.exists(completed_path):
                         with open(completed_path, "r") as f:
                             all_completed = json.load(f)
@@ -218,8 +218,9 @@ with tab3:
 
     tasks = st.session_state.get("tasks", [])
     completed = st.session_state[completed_key]
-    pending = [t for t in tasks if t not in completed]
-    done = [t for t in tasks if t in completed]
+
+    pending = [t for t in tasks if t["task"] not in completed]
+    done = [t for t in tasks if t["task"] in completed]
 
     # -------- Pending Task Cards --------
     with st.expander("📌 Pending Tasks", expanded=True):
@@ -235,10 +236,9 @@ with tab3:
                 with st.form(key=f"form_{task_id}"):
                     submitted = st.form_submit_button("✅ Mark as Done")
                     if submitted:
-                        if task not in st.session_state[completed_key]:
-                            st.session_state[completed_key].append(task)
+                        if task["task"] not in st.session_state[completed_key]:
+                            st.session_state[completed_key].append(task["task"])
 
-                            # Save to JSON file
                             if os.path.exists(completed_path):
                                 with open(completed_path, "r") as f:
                                     all_completed = json.load(f)
@@ -269,10 +269,9 @@ with tab3:
                     with col2:
                         unmark = st.form_submit_button("🔄 Mark as Pending")
                         if unmark:
-                            if task in st.session_state[completed_key]:
-                                st.session_state[completed_key].remove(task)
+                            if task["task"] in st.session_state[completed_key]:
+                                st.session_state[completed_key].remove(task["task"])
 
-                                # Save to JSON
                                 if os.path.exists(completed_path):
                                     with open(completed_path, "r") as f:
                                         all_completed = json.load(f)
@@ -283,3 +282,5 @@ with tab3:
                                     json.dump(all_completed, f, indent=2)
 
                                 st.rerun()
+
+

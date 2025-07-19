@@ -24,14 +24,21 @@ class QueryRequest(BaseModel):
     question: str
     model: str = "llama"
 
+
 # ✅ Detect statistical question
 def is_stat_query(q):
-    keywords = ["average", "mean", "total", "sum", "range", "maximum", "minimum", "max", "min", "how many", "quantity", "number of", "count", "percent", "percentage", "duration"]
+    keywords = [
+        "average", "mean", "total", "sum", "range",
+        "maximum", "minimum", "max", "min",
+        "how many", "quantity", "number of",
+        "count", "percent", "percentage", "duration"
+    ]
     return any(k in q.lower() for k in keywords)
+
 
 # ✅ Detect numeric chunks
 def is_statistical_chunk(text):
-    return bool(re.search(r'\d{1,3}(?:,\d{3})*(?:\.\d+)?', text))  # e.g. 1,234.56 or 1234
+    return bool(re.search(r'\d{1,3}(?:,\d{3})*(?:\.\d+)?', text))
 
 
 def get_combined_index_and_chunks(project: str):
@@ -78,7 +85,31 @@ def ask_question(req: QueryRequest):
         total_start = time.perf_counter()
         safe_project = req.project.replace("/", "_").replace(" ", "_").lower()
 
-        # Log question
+        # ✅ Direct tender ref shortcut
+        if "tender reference" in req.question.lower() or "tender ref" in req.question.lower():
+            try:
+                with open(UPLOAD_METADATA) as f:
+                    tracker = json.load(f)
+            except Exception:
+                tracker = {}
+
+            project_meta = tracker.get(req.project, {}).get("main", {}).get("metadata", {})
+            tender_ref = project_meta.get("tender_ref")
+
+            if tender_ref:
+                return {
+                    "question": req.question,
+                    "answer": tender_ref,
+                    "chunks": [],
+                    "timings": {
+                        "embedding": 0,
+                        "retrieval": 0,
+                        "llm": 0,
+                        "total": round(time.perf_counter() - total_start, 3)
+                    }
+                }
+
+        # ✅ Log question
         log_path = f"data/chunks/{safe_project}_questions.json"
         os.makedirs("data/chunks", exist_ok=True)
         entry = {"timestamp": datetime.now().isoformat(), "question": req.question}
@@ -91,16 +122,16 @@ def ask_question(req: QueryRequest):
         with open(log_path, "w") as f:
             json.dump(log_data, f, indent=2)
 
-        # Embed question
+        # ✅ Embed question
         embedder = get_embedder()
         embed_start = time.perf_counter()
         q_vector = embedder.encode([req.question]).astype("float32")
         embed_time = time.perf_counter() - embed_start
 
-        # Load merged index and chunks
+        # ✅ Load index & chunks
         index, chunks = get_combined_index_and_chunks(req.project)
 
-        # Retrieve top chunks
+        # ✅ Search top chunks
         retr_start = time.perf_counter()
         score_threshold = 0.0
         D, I = index.search(q_vector, index.ntotal)
@@ -119,7 +150,7 @@ def ask_question(req: QueryRequest):
                 if len(relevant) >= 30:
                     break
 
-        # Fallback
+        # ✅ Fallback if no chunks
         if not relevant:
             print("⚠️ No chunks passed the score threshold. Triggering fallback.")
             fallback_count = 3
@@ -132,8 +163,7 @@ def ask_question(req: QueryRequest):
 
         retr_time = time.perf_counter() - retr_start
 
-
-        # ✅ Inject numeric chunks if stat query
+        # ✅ Add numeric if stat
         if is_stat_query(req.question) and len(relevant) < 10:
             numeric_chunks = [c for c in chunks if is_statistical_chunk(c)]
             for c in numeric_chunks:
@@ -143,20 +173,20 @@ def ask_question(req: QueryRequest):
                 if len(relevant) >= 30:
                     break
 
-        # Prompt selection
+        # ✅ Build prompt
         if is_stat_query(req.question):
-            from src.retrieval.prompt import build_stat_prompt
             prompt = build_stat_prompt(req.question, relevant)
         else:
             prompt = build_prompt(req.question, relevant)
 
-        # LLM
+        # ✅ LLM call
         answer, llm_time = get_model_response(prompt, req.model)
 
         if not answer.strip():
             raise HTTPException(status_code=404, detail="LLM returned no meaningful answer.")
 
         total_time = time.perf_counter() - total_start
+
         return {
             "question": req.question,
             "answer": answer,

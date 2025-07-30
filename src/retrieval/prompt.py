@@ -1,3 +1,5 @@
+from typing import Tuple, List
+
 def count_tokens(text: str) -> int:
     """
     Approximates token count for LLaMA .gguf models.
@@ -5,67 +7,67 @@ def count_tokens(text: str) -> int:
     """
     return int(len(text) / 3.5)
 
-
-def build_prompt(question: str, context_chunks: list[str]) -> str:
-    reserved_output_tokens = 512
-    max_ctx = 2048  # Context window for LLaMA 2 7B (adjust if using different model)
-
-    static_template = """
-You are an AI assistant answering questions strictly using the provided CONTEXT.
-
----
-
-📚 CONTEXT:
-{context}
-
----
-
-❓ QUESTION:
-{question}
-
-📌 INSTRUCTIONS:
-- Use only the given context to answer.
-- Be accurate, short, and avoid adding your own knowledge.
-- If the answer isn't present, reply: "The information is not available in the document."
-"""
-
-    static_overhead = count_tokens(static_template) + count_tokens(question)
-    used_tokens = static_overhead
-    selected_chunks = []
-
-    for chunk in context_chunks:
-        chunk_tokens = count_tokens(chunk)
-        if used_tokens + chunk_tokens + reserved_output_tokens < max_ctx:
-            selected_chunks.append(chunk)
-            used_tokens += chunk_tokens
-        else:
-            break
-
-    context = "\n\n".join(selected_chunks).strip()
-    prompt = static_template.format(context=context, question=question)
-
+def build_prompt(question: str, context_chunks: List[str]) -> str:
+    """
+    Builds a prompt with the question and selected context chunks.
+    """
+    prompt = "You are TenderIQ, a helpful assistant for tender-related queries. Use the following tender document excerpts to answer the user's question.\n\n"
+    for i, chunk in enumerate(context_chunks):
+        prompt += f"[Context {i+1}]:\n{chunk.strip()}\n\n"
+    prompt += f"Question: {question.strip()}\nAnswer:"
     return prompt
 
-def build_stat_prompt(question: str, chunks: list[str]) -> str:
-    context = "\n\n".join(chunks)
+def build_stat_prompt(question: str, chunks: List[str]) -> str:
+    """
+    Builds a prompt specifically for statistical reasoning or analysis over tender documents.
+    """
+    prompt = "You are a statistical assistant analyzing tender documents. Use the data below to answer the question as accurately as possible.\n\n"
+    for i, chunk in enumerate(chunks):
+        prompt += f"[Data {i+1}]:\n{chunk.strip()}\n\n"
+    prompt += f"Question: {question.strip()}\nAnswer:"
+    return prompt
 
-    return f"""You are an intelligent assistant designed to analyze numeric/statistical information from tender documents.
+def get_full_document_chunks(text: str, max_words: int = 1500, overlap: int = 200) -> List[str]:
+    """
+    Splits the full text of a document into overlapping word chunks to preserve context.
+    
+    Args:
+        text (str): Full document text.
+        max_words (int): Maximum words per chunk.
+        overlap (int): Number of overlapping words between chunks.
+    
+    Returns:
+        List[str]: List of text chunks.
+    """
+    words = text.split()
+    chunks = []
+    start = 0
 
----
+    while start < len(words):
+        end = min(len(words), start + max_words)
+        chunk = " ".join(words[start:end])
+        chunks.append(chunk)
+        start = end - overlap  # maintain overlap
 
-📚 CONTEXT:
-{context}
+    return chunks
 
----
+def build_prompt_from_full_doc(question: str, full_text: str) -> Tuple[str, List[str]]:
+    """
+    Decides whether to send the whole document or chunked parts, based on token count.
+    
+    Args:
+        question (str): The user question.
+        full_text (str): The entire text of the PDF document.
+    
+    Returns:
+        Tuple[str, List[str]]: The final prompt and the list of chunks used (for logging).
+    """
+    estimated_tokens = count_tokens(full_text)
 
-❓ QUESTION:
-{question}
+    if estimated_tokens < 2500:
+        chunks = [full_text]  # send as one block
+    else:
+        chunks = get_full_document_chunks(full_text)
 
-📌 INSTRUCTIONS:
-- Extract all numbers and their relevant labels (e.g., Tender Name, Item Type).
-- Identify tender-wise values clearly (e.g., Bid Validity for Tender A = 150 days).
-- Aggregate across tenders (sum, average, max, min, etc.) where applicable.
-- Provide **step-by-step reasoning** followed by the **final numeric answer**.
-- If information is missing for one or more tenders, mention it clearly.
-- If the answer can't be computed due to missing values, say: "The information is not available in the document."
-"""
+    prompt = build_prompt(question, chunks)
+    return prompt, chunks

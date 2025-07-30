@@ -124,10 +124,12 @@ if show_upload_tab:
 with tab2:
     st.header("💬 Ask Questions")
     st.markdown("Ask anything about the selected tender document.")
+    
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
     user_input = st.text_input("Type your question")
+
     if st.button("Ask"):
         if user_input:
             with st.spinner("🧠 Processing your query..."):
@@ -140,26 +142,38 @@ with tab2:
                     res = requests.post(f"{API_BASE}/ask/", json=data)
                 except Exception as e:
                     res = None
-                    st.session_state.chat_history.append((user_input, f"❌ Request failed: {e}", [], {}))
+                    st.session_state.chat_history.append((user_input, f"❌ Request failed: {e}", [], {}, []))
 
             if res and res.status_code == 200:
                 response = res.json()
                 answer = response.get("answer", "No answer returned.")
                 sources = response.get("chunks", [])
                 timings = response.get("timings", {})
-                st.session_state.chat_history.append((user_input, answer, sources, timings))
+                log = response.get("log", [])
+                st.session_state.chat_history.append((user_input, answer, sources, timings, log))
             elif res:
-                st.session_state.chat_history.append((user_input, f"❌ Error: {res.status_code}", [], {}))
+                st.session_state.chat_history.append((user_input, f"❌ Error: {res.status_code}", [], {}, []))
 
-    for q, a, s, t in reversed(st.session_state.chat_history):
+    for item in reversed(st.session_state.chat_history):
+    # Safely unpack depending on number of elements
+        if len(item) == 5:
+            q, a, s, t, l = item
+        elif len(item) == 4:
+            q, a, s, t = item
+            l = None
+        else:
+            continue  # Skip malformed entry
+
         st.markdown(f"**🧑 You:** {q}")
         st.markdown(f"**🤖 TenderIQ:** {a}")
+        
         if t:
             with st.expander("🕒 Processing Breakdown"):
                 st.markdown(f"- 🧠 **Embedding**: `{t.get('embedding', 'N/A')}s`")
                 st.markdown(f"- 🔍 **Retrieval**: `{t.get('retrieval', 'N/A')}s`")
                 st.markdown(f"- ✍️ **LLM Inference**: `{t.get('llm', 'N/A')}s`")
                 st.markdown(f"- ⏱️ **Total Time**: `{t.get('total', 'N/A')}s`")
+
         if s:
             for i, chunk in enumerate(s, 1):
                 preview = chunk[:120].replace("\n", " ") + ("…" if len(chunk) > 120 else "")
@@ -167,7 +181,16 @@ with tab2:
                     st.markdown(chunk)
         else:
             st.markdown("_No relevant sources found._")
+
+        if l:
+            with st.expander("📑 View Context Parts Used"):
+                for i, part in enumerate(l):
+                    if part.get("used"):
+                        st.markdown(f"**Part {i+1}**")
+                        st.code(part.get("preview", "")[:500])
+
         st.markdown("---")
+
 
 # ---------------------- Tab 3: Task Extraction -------------------------
 with tab3:

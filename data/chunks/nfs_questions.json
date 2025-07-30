@@ -66,5 +66,105 @@
   {
     "timestamp": "2025-07-29T21:53:20.522623",
     "question": "Is teaming with OEMs mandatory?"
+  },
+  {
+    "timestamp": "2025-07-30T15:16:52.616869",
+    "question": "What is he summary of this tender"
+  },
+  {
+    "timestamp": "2025-07-30T15:20:57.592800",
+    "question": "Summarize the key components and deliverables required under this tender."
+  },
+  {
+    "timestamp": "2025-07-30T15:21:44.119129",
+    "question": "What type of network architecture and topology is proposed in this project?"
+  },
+  {
+    "timestamp": "2025-07-30T15:22:57.311606",
+    "question": "What is the complete objective and scope of the BSNL DWDM tender project?"
+  },
+  {
+    "timestamp": "2025-07-30T15:23:36.305710",
+    "question": "What are the major milestones and timelines for the project completion?"
+  },
+  {
+    "timestamp": "2025-07-30T15:24:05.160666",
+    "question": "What are the major milestones and timelines for the project completion?"
+  },
+  {
+    "timestamp": "2025-07-30T15:25:52.655198",
+    "question": "What infrastructure is to be developed under this tender (including nodes, NOCs, etc.)"
+  },
+  {
+    "timestamp": "2025-07-30T15:26:15.733226",
+    "question": "What are the end-to-end responsibilities of the bidder across design, installation, training, and maintenance?"
+  },
+  {
+    "timestamp": "2025-07-30T15:26:54.856217",
+    "question": "What type of network architecture and topology is proposed in this project?"
+  },
+  {
+    "timestamp": "2025-07-30T15:27:15.995887",
+    "question": "What are the specifications for the National and Regional NOCs and their functionality?"
+  },
+  {
+    "timestamp": "2025-07-30T15:28:08.570658",
+    "question": "Summarize the technical requirements for the DWDM systems including node types, interfaces, and protection schemes"
+  },
+  {
+    "timestamp": "2025-07-30T15:29:07.412310",
+    "question": "What EMS/NMS capabilities are required for centralized network management?"
+  },
+  {
+    "timestamp": "2025-07-30T15:29:39.168273",
+    "question": "How does the tender ensure 24x7x365 operation, support, and disaster recovery?"
+  },
+  {
+    "timestamp": "2025-07-30T15:30:00.092288",
+    "question": "What training and documentation deliverables are expected from the bidder?"
+  },
+  {
+    "timestamp": "2025-07-30T15:30:25.032652",
+    "question": "Summarize the eligibility criteria (general, financial, technical, and experience)"
+  },
+  {
+    "timestamp": "2025-07-30T15:31:01.318619",
+    "question": "What OEM/vendor obligations are outlined through teaming agreements?"
+  },
+  {
+    "timestamp": "2025-07-30T15:31:55.731949",
+    "question": "How is integration with legacy Armed Forces networks (SDH, MPLS, ATM) planned in this project?"
+  },
+  {
+    "timestamp": "2025-07-30T15:32:20.606090",
+    "question": "What is the payment schedule and milestone-based disbursement structure"
+  },
+  {
+    "timestamp": "2025-07-30T15:33:21.961808",
+    "question": "What is the bid submission process, including stages and required documents?"
+  },
+  {
+    "timestamp": "2025-07-30T15:33:51.113284",
+    "question": "What are the key performance, reliability, and security requirements for this DWDM network?"
+  },
+  {
+    "timestamp": "2025-07-30T15:34:33.612670",
+    "question": "How does the tender ensure future scalability and flexibility of the network?"
+  },
+  {
+    "timestamp": "2025-07-30T15:34:59.811343",
+    "question": "What test, measurement, and quality assurance provisions are defined in the document?"
+  },
+  {
+    "timestamp": "2025-07-30T15:35:25.365612",
+    "question": "What penalties or clauses exist for non-performance, delays, or default?"
+  },
+  {
+    "timestamp": "2025-07-30T15:50:57.218240",
+    "question": "What is the tender number and issue date for this DWDM project?"
+  },
+  {
+    "timestamp": "2025-07-30T15:51:09.993734",
+    "question": "What is the scope of supply under this tender"
   }
 ]

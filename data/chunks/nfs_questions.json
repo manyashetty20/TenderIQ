@@ -6,5 +6,65 @@
   {
     "timestamp": "2025-07-16T14:21:53.840726",
     "question": "how long is the warranty period?"
+  },
+  {
+    "timestamp": "2025-07-29T21:48:49.906705",
+    "question": "What is the tender number and issue date for this DWDM project?"
+  },
+  {
+    "timestamp": "2025-07-29T21:49:00.924287",
+    "question": "What is the last date for receipt of bids for this tender?"
+  },
+  {
+    "timestamp": "2025-07-29T21:49:20.499082",
+    "question": "what is the maximum emd across all tenders"
+  },
+  {
+    "timestamp": "2025-07-29T21:49:35.222315",
+    "question": " What is the main objective of this tender?"
+  },
+  {
+    "timestamp": "2025-07-29T21:49:50.766716",
+    "question": "What is the scope of supply under this tender?"
+  },
+  {
+    "timestamp": "2025-07-29T21:50:09.374082",
+    "question": "What is the period of validity for the bids?"
+  },
+  {
+    "timestamp": "2025-07-29T21:50:20.435382",
+    "question": "What is the total cumulative turnover requirement for bidders?"
+  },
+  {
+    "timestamp": "2025-07-29T21:50:37.208823",
+    "question": "What is the minimum solvency certificate value required?"
+  },
+  {
+    "timestamp": "2025-07-29T21:51:23.438343",
+    "question": "What is the experience requirement for the bidder with Defence Services?"
+  },
+  {
+    "timestamp": "2025-07-29T21:51:32.825212",
+    "question": "How long is the warranty period and AMC period?"
+  },
+  {
+    "timestamp": "2025-07-29T21:51:47.139735",
+    "question": " What is the first stage payment percentage for material cost?"
+  },
+  {
+    "timestamp": "2025-07-29T21:52:21.705678",
+    "question": "What are the phases of project implementation?"
+  },
+  {
+    "timestamp": "2025-07-29T21:52:50.658110",
+    "question": "What are the eligible technical conditions for the bidder?"
+  },
+  {
+    "timestamp": "2025-07-29T21:53:06.877289",
+    "question": "Can one bidder submit multiple bids?"
+  },
+  {
+    "timestamp": "2025-07-29T21:53:20.522623",
+    "question": "Is teaming with OEMs mandatory?"
   }
 ]

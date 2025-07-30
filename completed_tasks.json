@@ -65,6 +65,12 @@
       "priority": "high",
       "source": "regex",
       "category": "deadline"
+    },
+    {
+      "task": "The Supplier (including Micro and Small Enterprise bidders) shall furnish Performance \nSecurity to the Purchaser for an amount equal to 3% of the all-inclusive value of Advanced \nPurchase Order within 14 days from the date of issue of Advance Purchase Order by the \nPurchaser.",
+      "deadline": "14 days",
+      "priority": "high",
+      "source": "regex"
     }
   ],
   "ONT_completed_tasks": [
@@ -74,6 +80,36 @@
       "priority": "high",
       "source": "regex",
       "category": "requirement"
+    }
+  ],
+  "NFS_completed_tasks": [
+    {
+      "task": "The supplier shall automatically notify the buyer within 10 days about:-\nThe supplier shall automatically notify the buyer within 10 days about:-\nRelease of a new software version - release notes, reason for new SW (feature enhancement / customer request / bug-fix), new features, upgrade procedure, inter-working information.",
+      "deadline": "10 days",
+      "priority": "high",
+      "source": "regex",
+      "category": "requirement"
+    },
+    {
+      "task": "The bidder shall, within 14 days of issue of, from the date of advance purchase order, give his acceptance along with performance security in conformity with Section VII provided with the bid document.",
+      "deadline": "14 days",
+      "priority": "high",
+      "source": "regex",
+      "category": "requirement"
+    },
+    {
+      "task": "The supplier shall automatically notify the buyer within 10 days about:-\nThe supplier shall automatically notify the buyer within 10 days about:-\nRelease of a new software version - release notes, reason for new SW (feature enhancement / customer request / bug-fix), new features, upgrade procedure, inter-working information.",
+      "deadline": "10 days",
+      "priority": "high",
+      "source": "regex"
+    }
+  ],
+  "Demo_completed_tasks": [
+    {
+      "task": "Whether the Minimum Wages prescribed by the Government under the Minimum \nWages Act are not inclusive of the wages for the weekly day of rest, the worker \nshall be entitled to rest day wages at the rate applicable to the next preceding \nday, provided he has worked under the same Contractor for a continuous period \nof not less than 6 days.",
+      "deadline": "6 days",
+      "priority": "high",
+      "source": "regex"
     }
   ]
 }

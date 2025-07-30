@@ -8,11 +8,12 @@
 
 TenderIQ lets you:
 
-- 📄 Upload tender PDFs or TXT files per project
+- 📄 Upload tender PDFs or Docx files per project
 - 🧾 Parse and chunk large documents into manageable blocks
 - 🤖 Embed using **Groq** or **LLaMA** for vector similarity search
 - 💬 Ask natural language questions and receive context-rich answers
 - 🗂 Organize and reuse processing results project-wise
+- 📝 Extracts tasks
 
 The platform combines a **Streamlit frontend** with a **FastAPI backend**, along with PyMuPDF-based parsing and LLM-powered embeddings.
 
@@ -78,7 +79,7 @@ Visit [http://localhost:8501](http://localhost:8501) to start using TenderIQ.
    - Select or create a new tender project from the sidebar
 
 2. **Upload Document**
-   - Upload `.pdf` or `.txt` file (stored locally)
+   - Upload `.pdf` or `.docx` file (stored locally)
 
 3. **Choose Model**
    - Use sidebar radio buttons:
@@ -104,37 +105,64 @@ Visit [http://localhost:8501](http://localhost:8501) to start using TenderIQ.
 
 ```
 TenderIQ/
-│
-├── app.py                     # Streamlit frontend entry-point
-├── requirements.txt
-├── README.md
-│
+├── __pycache__/
 ├── data/
-│   ├── uploads/               # Uploaded files per project
-│   └── projects.json          # Metadata about all projects
-│
+├── Documentation/
+├── logs/
+├── models/
 ├── src/
-│   ├── api/                   # FastAPI routes for processing 
+│   ├── api/
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
 │   │   ├── main.py
+│   │   ├── project.py
+│   │   ├── query.py
+│   │   ├── routes.py
+│   │   ├── tasks.py
 │   │   ├── upload.py
-│   │   ├── parse.py
-│   │   ├── chunk.py
-│   │   ├── embed.py
-│   │   └── query.py
-│   │
-│   ├── processing/
-│   │   ├── parser.py          # PDF/TXT parsing using PyMuPDF
-│   │   └── chunker.py
-│   │
+│   ├── data/
 │   ├── embedding/
-│   │   ├── model.py           # Handles embedding via LLaMA/Groq
-│   │   └── index.py           # Save/load embedding index
-│   │
-│   └── utils/
-│       └── config.py
-│
-└── tests/
-    └── test_api.py
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── index.py
+│   │   ├── model.py
+│   ├── llm/
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── inference.py
+│   │   ├── groq_inference.py
+│   │   ├── llama_inference.py
+│   │   ├── response.py
+│   ├── processing/
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── chunker.py
+│   │   ├── metadata.py
+│   │   ├── parser.py
+│   ├── retrieval/
+│   │   ├── __pycache__/
+│   │   ├── __init__.py
+│   │   ├── context.py
+│   │   ├── extractor.py
+│   │   ├── prompt.py
+│   │   ├── search.py
+│   ├── storage/
+│   ├── tasks/
+│   ├── utils/
+│   ├── test.py
+│   ├── upload.py
+├── UI/
+├── UI_React/
+├── .env
+├── .gitattributes
+├── .gitignore
+├── app.py
+├── completed_tasks.json
+├── config.py
+├── README.md
+├── requirements.txt
+├── tenderiq_app.py
+
 ```
 
 
@@ -143,7 +171,7 @@ TenderIQ/
 |--------------|------------|
 | Frontend     | Streamlit  |
 | Backend      | FastAPI    |
-| Parsing      | PyMuPDF    |
+| Parsing      | PyMuPDF,DOCX    |
 | LLMs         | Groq, LLaMA|
 | Embeddings   | FAISS‑style store |
 | Language     | Python 3.9+|

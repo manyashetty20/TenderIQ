@@ -62,5 +62,85 @@
   {
     "timestamp": "2025-07-16T15:07:46.357639",
     "question": "Does the equipment need to support IPv6?"
+  },
+  {
+    "timestamp": "2025-07-29T21:40:59.708208",
+    "question": "Who is the issuing authority of this RFP?"
+  },
+  {
+    "timestamp": "2025-07-29T21:41:09.918871",
+    "question": "What is the Tender Reference Number?"
+  },
+  {
+    "timestamp": "2025-07-29T21:41:21.661308",
+    "question": "What is the estimated quantity for GPON OLT with 4 PON ports?"
+  },
+  {
+    "timestamp": "2025-07-29T21:41:41.181111",
+    "question": "what is the maximum emd across all tenders"
+  },
+  {
+    "timestamp": "2025-07-29T21:42:16.954454",
+    "question": "When is the last date to submit bids?"
+  },
+  {
+    "timestamp": "2025-07-29T21:42:30.221154",
+    "question": "What is the contract period specified in this RFP?"
+  },
+  {
+    "timestamp": "2025-07-29T21:42:42.146545",
+    "question": "What is the warranty period for supplied products?"
+  },
+  {
+    "timestamp": "2025-07-29T21:42:44.507370",
+    "question": "What is the warranty period for supplied products?"
+  },
+  {
+    "timestamp": "2025-07-29T21:42:47.126518",
+    "question": "What is the warranty period for supplied products?"
+  },
+  {
+    "timestamp": "2025-07-29T21:43:02.729691",
+    "question": "What is the minimum turnover required for the bidder?"
+  },
+  {
+    "timestamp": "2025-07-29T21:43:13.055910",
+    "question": "What is the minimum turnover required for the bidder?"
+  },
+  {
+    "timestamp": "2025-07-29T21:44:12.101086",
+    "question": "What is the minimum technical eligibility for similar works?"
+  },
+  {
+    "timestamp": "2025-07-29T21:45:22.707517",
+    "question": "What is the required Performance Security (PS) amount?"
+  },
+  {
+    "timestamp": "2025-07-29T21:45:35.420721",
+    "question": "What is the validity period of the bid?"
+  },
+  {
+    "timestamp": "2025-07-29T21:45:45.034882",
+    "question": "Where should the bids be submitted?"
+  },
+  {
+    "timestamp": "2025-07-29T21:45:55.937390",
+    "question": " When is the pre-bid meeting scheduled?"
+  },
+  {
+    "timestamp": "2025-07-29T21:46:06.134610",
+    "question": "When is the pre-bid meeting scheduled?"
+  },
+  {
+    "timestamp": "2025-07-29T21:46:17.055731",
+    "question": "What is the total estimated quantity for xPON ONT Type-1?"
+  },
+  {
+    "timestamp": "2025-07-29T21:46:32.371989",
+    "question": "Does the equipment need to support IPv6?"
+  },
+  {
+    "timestamp": "2025-07-29T21:47:48.357652",
+    "question": "What is the Tender Reference Number?"
   }
 ]

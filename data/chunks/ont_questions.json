@@ -58,5 +58,45 @@
   {
     "timestamp": "2025-07-16T19:02:31.447683",
     "question": "how long is the warranty period in ONT?"
+  },
+  {
+    "timestamp": "2025-07-29T21:35:13.282912",
+    "question": "What is the estimated total quantity of ONTs to be procured under this tender?"
+  },
+  {
+    "timestamp": "2025-07-29T21:35:28.704869",
+    "question": "What is the estimated total quantity of ONTs to be procured under this tender?"
+  },
+  {
+    "timestamp": "2025-07-29T21:35:29.668233",
+    "question": "What is the estimated total quantity of ONTs to be procured under this tender?"
+  },
+  {
+    "timestamp": "2025-07-29T21:36:19.474616",
+    "question": "Is the Tender Fee refundable?"
+  },
+  {
+    "timestamp": "2025-07-29T21:36:37.675763",
+    "question": "Can BSNL vary the quantity ordered?"
+  },
+  {
+    "timestamp": "2025-07-29T21:36:58.588223",
+    "question": "Does the ONT need to be BIS approved?"
+  },
+  {
+    "timestamp": "2025-07-29T21:37:12.358996",
+    "question": "Can BSNL vary the quantity ordered?"
+  },
+  {
+    "timestamp": "2025-07-29T21:37:32.247123",
+    "question": "What is the Earnest Money Deposit (EMD) amount for this tender?"
+  },
+  {
+    "timestamp": "2025-07-29T21:37:49.784309",
+    "question": "What is the maximum EMD required across the tenders?"
+  },
+  {
+    "timestamp": "2025-07-30T10:10:50.183357",
+    "question": "Whos is spoc?"
   }
 ]
